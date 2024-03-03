@@ -1,0 +1,10 @@
+https://www.youtube.com/watch?v=ODl2iCkIPpg
+
+npm i gulp-cli -g
+npm i gulp -D
+npm i gulp-sass sass -D
+
+gulp style
+
+npm i gulp-concat -D
+npm i gulp-uglify-es -D
