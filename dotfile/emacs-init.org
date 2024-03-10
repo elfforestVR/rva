@@ -2001,6 +2001,14 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
 ;; (add-hook 'after-save-hook 
 ;; 	  '(lambda ()(org-html-export-to-html)))
 #+end_src
+*** работа с интернет закладками
+#+begin_src emacs-lisp
+(use-package ebuku
+  :straight t
+  :ensure t
+  :init
+)
+#+end_src
 *** Хоткеи на русской раскладке конец
 #+begin_src emacs-lisp
 ;; ========== Хоткеи на русской раскладке

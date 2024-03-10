@@ -1,0 +1,6 @@
+#+TITLE: Полезные сайты
+#+AUTHOR: Vladimir Ryazansew
+#+EMAIL: elf.forest@yandex.ru
+#+DATE: Воскресенье, марта 10 2024
+#+OPTIONS: num:nil
+

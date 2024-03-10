@@ -6,7 +6,7 @@ if [[ -f /bin/dialog ]]; then
  sudo apt install -y dialog
 fi
 
-array1="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru"
+array1="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku"
 
 array=(${array1})
 
