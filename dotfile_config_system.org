@@ -6,13 +6,14 @@
 #+OPTIONS: html-style:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css"/>
 * Настройка системы
+
 ** i3wm
 
 ** tmux
 ** Командная оболочка
 *** zsh
 ** Текстовый редактор emacs
-***  early-init.el
+*** early-init.el
 :PROPERTIES:
 :CUSTOM_ID: init
 :header-args:emacs-lisp: :tangle ~/.emacs.d/early-init.el :mkdirp yes :shebang ";;-*- mode: emacs-lisp; lexical-binding: t; no-byte-compile: t -*-"
@@ -23,7 +24,7 @@
 (setq package-enable-at-startup nil)
 #+end_src
 
-*** Настрройка
+*** init.el
 :PROPERTIES:
 :CUSTOM_ID: init
 :header-args:emacs-lisp: :tangle ~/.emacs.d/init.el :mkdirp yes :shebang ";;-*- mode: emacs-lisp; lexical-binding: t; no-byte-compile: t -*-"
@@ -94,19 +95,6 @@
     ;; Install use-package
   (straight-use-package 'use-package)  
 #+end_src
-**** обновление пакетов
-#+begin_src emacs-lisp
-;; (use-package emojify
-;;   :ensure t
-;;   :straight t
-;;   :config 
-;; (require 'auto-package-update)
-;; (auto-package-update-maybe)
-;; (auto-package-update-at-time "19:00")
-;; (package-refresh-contents :async)
-
-;; )
-#+end_src
 **** Закладки
 #+begin_src emacs-lisp
 (use-package bookmark
@@ -171,11 +159,7 @@
 (global-set-key (kbd "M-<down>") 'other-window)
 #+end_src
 **** Общий с ОС буфер обмена:
-
-#+begin_src emacs-lisp
- 
-#+end_src
-h*** запретить emacs создавать файлы резервных копий
+запретить emacs создавать файлы резервных копий
 #+begin_src emacs-lisp
  (setq make-backup-files nil) ; stop creating ~ files
 ;; (setq backup-directory-alist            '((".*" . "~/.Trash")))
@@ -199,9 +183,6 @@ h*** запретить emacs создавать файлы резервных �
 **** Проверка орфографии
 Приходится много писать и надо проверить орфографию для неё нужны программы
 вот как их поставить.
-#+begin_src bash :tangle ~/.emacs.d/install.sh
-  sudo apt install spell aspell aspell-ru hunspell hunspell-ru
-#+end_src
 #+begin_src emacs-lisp
   (with-eval-after-load "ispell"
     ;;(setenv "LANG" "en_US.UTF-8")
@@ -255,11 +236,11 @@ h*** запретить emacs создавать файлы резервных �
       DOWNLOAD_DIR (xdg-user-dir "DOWNLOAD")
       DESKTOP_DIR (xdg-user-dir "DESKTOP")
       TMP_DIR "~/tmp"
-      
-      ))  )
+      )))
 #+end_src
 
 Пути пользователя
+
 #+begin_src emacs-lisp
   (setq
    ORG_MODE_DIR DOCUMENTS_DIR
@@ -322,22 +303,6 @@ h*** запретить emacs создавать файлы резервных �
       ((member "DejaVu Sans Mono" (font-family-list))
        (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
       )
-;; (when (member "Roboto Mono" (font-family-list))
-;;   (set-face-attribute 'default nil :font "Roboto Mono" :height 140)
-;;   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
-
-;; (when (member "Source Sans Pro" (font-family-list))
-;;   (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.0))
-
-;;     ;; Default Windows emoji font
-;; (when (member "Segoe UI Emoji" (font-family-list))
-;;   (set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend)
-;;   (set-fontset-font "fontset-default" '(#xFE00 . #xFE0F) "Segoe UI Emoji"))
-
-;;   ;; Linux emoji font
-;; (when (member "Noto Color Emoji" (font-family-list))
-;;   (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)
-;;   (set-fontset-font "fontset-default" '(#xFE00 . #xFE0F) "Noto Color Emoji"))
 #+end_src
 **** Очистка всего не нужного
 #+begin_src emacs-lisp
@@ -496,20 +461,6 @@ h*** запретить emacs создавать файлы резервных �
 :ensure t
 
 )
-#+end_src
-**** org-modern
-#+begin_src emacs-lisp
-;; (use-package org-modern
-;;  :straight t 
-;;  :hook
-;;     (org-mode . global-org-modern-mode)
-;;     :custom
-;;     (org-modern-keyword nil)
-;;     (org-modern-checkbox nil)
-;;     (org-modern-table nil)
-;;     ;; Option 2: Globally
-;;     (with-eval-after-load 'org (global-org-modern-mode))
-;; )
 #+end_src
 **** режим писателя
 #+begin_src emacs-lisp
@@ -971,8 +922,6 @@ With a prefix ARG, remove start location."
 **** lisp
 
 #+begin_src emacs-lisp
-  ;;(straight-use-package 'slime)
- ;; Superior Lisp Interaction Mode for Emacs
 (use-package slime
   :defer t
   :straight t
@@ -1060,10 +1009,6 @@ With a prefix ARG, remove start location."
 
   (use-package eglot :straight t :ensure t)
 
-
-
-
-
   (use-package eglot-java
     :straight t
     :ensure t
@@ -1103,24 +1048,6 @@ With a prefix ARG, remove start location."
 **** company
 #+begin_src emacs-lisp
 
-;; (straight-use-package 'company-quickhelp)
-;; (straight-use-package 'slime-company)
-
-;; (use-package company
-;;   :straight t
-;;   :ensure t
-;;   :bind ("C-<tab>" . company-indent-or-complete-common)
-;;   :config
-;;   (company-quickhelp-mode 1)
-;;   (setq company-quickhelp-delay 0.7
-;; 	company-tooltip-align-annotations t)
-
-;;   (global-company-mode)
-;;   (push 'slime-company slime-contribs)
-
-;;   )
-
-(provide 'portacle-company)
 
 (straight-use-package 'company) 
 (straight-use-package 'company-quickhelp)
@@ -1141,22 +1068,6 @@ With a prefix ARG, remove start location."
   ;; Override all minor modes that use C-/; bind-key* is discussed below.
 (bind-key* "C-`" #'company-manual-begin)
 
-; Show suggestions after entering one character.
-;; (setq company-minimum-prefix-length 1)
-; Use tab key to cycle through suggestions.
-; ('tng' means 'tab and go')
-;; (company-tng-configure-default)
-;; (use-package company-flx
-;;   :after company
-;;   :straight t
-;;   :config
-;;   (company-flx-mode +1))
-
-;; (use-package prescient
-;;   :defer 1
-;;   :straight t
-;;   :config
-;;   (prescient-persist-mode 1))
 #+end_src
 **** lua
     #+begin_src emacs-lisp
@@ -1600,27 +1511,6 @@ With a prefix ARG, remove start location."
 
 **** mode-line
 #+begin_src emacs-lisp
- 
-;; (set-face-attribute 'mode-line nil
-;; 		      :background "#353644"
-;; 		      :foreground "white"
-;; 		      :box '(:line-width 1 :color "#353644")
-;; 		      :overline nil
-;; 		      :underline nil)
-
-;; (set-face-attribute 'mode-line-inactive nil
-;; 		      :background "#565063"
-;; 		      :foreground "white"
-;; 		      :box '(:line-width 1 :color "#565063")
-;; 		      :overline nil
-;; 		      :underline nil)
-
-;; (use-package telephone-line
-;;   :straight t
-;;   :init (telephone-line-mode t))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
   :straight t
@@ -1654,12 +1544,12 @@ With a prefix ARG, remove start location."
 #+end_src
 **** Золотое сечение
 #+begin_src emacs-lisp
-(use-package zoom
-  :commands zoom-mode
-  :straight t
-  :config
-  (setq zoom-size '(0.618 . 0.618)))
-(zoom-mode nil)
+;; (use-package zoom
+;;   :commands zoom-mode
+;;   :straight t
+;;   :config
+;;   (setq zoom-size '(0.618 . 0.618)))
+;; (zoom-mode nil)
 #+end_src
 **** Отступы выделяются с помощьюfont-lock
 #+begin_src emacs-lisp
@@ -1686,38 +1576,8 @@ With a prefix ARG, remove start location."
     :straight t
     :init
     (vertico-mode)
-
-    ;; Different scroll margin
-    ;; (setq vertico-scroll-margin 0)
-
-    ;; Show more candidates
-    ;; (setq vertico-count 20)
-
-    ;; Grow and shrink the Vertico minibuffer
-    ;; (setq vertico-resize t)
-
-    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-    ;; (setq vertico-cycle t)
     ) 
 #+end_src
-**** второстепенный режим для редактирования скобок
-    #+begin_src emacs-lisp
-	;; minor mode for editing parentheses
-    ;; (use-package paredit
-    ;;   :defer t
-    ;;   :straight t
-    ;;   :hook ((cider-repl-mode
-    ;; 	      clojure-mode
-    ;; 	      ielm-mode
-    ;; 	      racket-mode
-    ;; 	      racket-repl-mode
-    ;; 	      slime-repl-mode
-    ;; 	      lisp-mode
-    ;; 	      emacs-lisp-mode
-    ;; 	      lisp-interaction-mode
-    ;; 	      scheme-mode) 
-    ;; 	     . paredit-mode))
-    #+end_src
 
 **** auto-insert
 #+begin_src emacs-lisp
@@ -1733,22 +1593,6 @@ With a prefix ARG, remove start location."
 ("\\.org$" . ["insert.org" alexott/auto-update-defaults])
 ("\\.c$" . ["insert.c" alexott/auto-update-defaults])
                           ))
-;; (add-to-list 'auto-insert-alist '(".*/projects/.*\\.cpp$" . ["insert-home.cpp" alexott/auto-update-c-source-file]))
-;; (add-to-list 'auto-insert-alist '(".*/projects/.*\\.h$"   . ["insert-home.h" alexott/auto-update-header-file]))
-;; (add-to-list 'auto-insert-alist '(".*/projects/.*\\.hpp$"   . ["insert-home.h" alexott/auto-update-header-file]))
-;; (add-to-list 'auto-insert-alist '(".*/projects/.*\\.c$" . ["insert-home.cpp" alexott/auto-update-c-source-file]))
-
-;; (defun alexott/auto-replace-header-name ()
-;;   (save-excursion
-;;     (while (search-forward "###" nil t)
-;;       (save-restriction
-;;         (narrow-to-region (match-beginning 0) (match-end 0))
-;;         (replace-match (upcase (file-name-nondirectory buffer-file-name)))
-;;         (subst-char-in-region (point-min) (point-max) ?. ?_)
-;;         (subst-char-in-region (point-min) (point-max) ?- ?_)
-;;         ))
-;;     )
-;;   )
 
 (defun alexott/auto-replace-file-name ()
   (save-excursion
@@ -1768,9 +1612,7 @@ With a prefix ARG, remove start location."
       (save-restriction
         (narrow-to-region (match-beginning 0) (match-end 0))
         (replace-match (file-name-sans-extension (file-name-nondirectory buffer-file-name)) t)
-        ))
-    )
-  )
+        ))))
 
 (defun alexott/insert-today ()
   "Insert today's date into buffer"
@@ -1786,12 +1628,6 @@ With a prefix ARG, remove start location."
         (replace-match "" t)
         (alexott/insert-today)
         ))))
-
-;; (defun alexott/auto-update-header-file ()
-;;   (alexott/auto-replace-header-name)
-;;   (alexott/auto-replace-file-name)
-;;   )
-
 
 (defun alexott/auto-update-defaults ()
   (alexott/auto-replace-file-name)
@@ -1847,14 +1683,6 @@ With a prefix ARG, remove start location."
 
 
 ;;; (>>FILE<<) ends here
-#+end_src
-
-#+begin_src org-mode :tangle ~/.emacs.d/auto-insert/insert.org :mkdirp yes
-#+TITLE: (>>FILE_NO_EXT<<)
-#+AUTHOR: Vladimir Ryazansew
-#+EMAIL: elf.forest@yandex.ru
-#+DATE: (>>DATE<<)
-#+OPTIONS: num:nil
 #+end_src
 **** eww 
 #+begin_src emacs-lisp 
@@ -1940,6 +1768,16 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
   :ensure t
   :init
 )
+#+end_src
+**** Hydra
+#+begin_src emacs-lisp
+(use-package hydra
+  :straight t)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package use-package-hydra
+  :straight t)
 #+end_src
 **** Хоткеи на русской раскладке конец
 #+begin_src emacs-lisp
