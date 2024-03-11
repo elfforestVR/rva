@@ -347,6 +347,12 @@ h*** запретить emacs создавать файлы резервных �
 			    (bookmarks . 5)))
     (dashboard-setup-startup-hook))
 #+end_src
+*** Отображение размера файла/времени в режиме-строка
+#+begin_src emacs-lisp
+(setq display-time-24hr-format t) ;; 24-часовой временной формат в mode-line
+(display-time-mode             t) ;; показывать часы в mode-line
+(size-indication-mode          t) ;; размер файла в %-ах
+#+end_src
 *** Сочетание клавиш как в windows (C-c C-v)
 #+begin_src emacs-lisp
   (cua-mode 1)
@@ -1102,6 +1108,11 @@ With a prefix ARG, remove start location."
 (push 'slime-company slime-contribs)
 
 (setq company-idle-delay 0)
+
+ ;; Use C-/ to manually start company mode at point. C-/ is used by undo-tree.
+  ;; Override all minor modes that use C-/; bind-key* is discussed below.
+(bind-key* "C-`" #'company-manual-begin)
+
 ; Show suggestions after entering one character.
 ;; (setq company-minimum-prefix-length 1)
 ; Use tab key to cycle through suggestions.
