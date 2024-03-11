@@ -6,9 +6,9 @@ if [[ -f /bin/dialog ]]; then
  sudo apt install -y dialog
 fi
 
-array1="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku"
+array="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku zsh clangd cmake build-essential"
 
-array=(${array1})
+
 
 echo "$array"
 # for item in ${array[*]}
@@ -17,3 +17,7 @@ echo "$array"
 # done
 
 # echo -e "система готова программы устоновленны"
+
+# zsh по умолчанию
+
+chsh -s $(which zsh)
