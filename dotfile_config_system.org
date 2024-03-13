@@ -6,12 +6,19 @@
 #+OPTIONS: html-style:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css"/>
 * Настройка системы
-
+Это настройка операционной системы linux  и автоматизация системы. Mеня зовут Владимир 
+Рязанцев  и много времени  помимо работы провожу за компьютером там хранятся много
+данных и личного. 
+И мне бы хотелось всё это привести в порядок и автоматизировать как пользователю.
+Вот и приступим к наведению порядка.
 ** i3wm
-
 ** tmux
 ** Командная оболочка
-*** zsh
+*** zshrc
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:sh: :tangle ~/.zshrc-test :mkdirp yes :shebang ";;"
+:END:
 ** Текстовый редактор emacs
 *** early-init.el
 :PROPERTIES:
@@ -469,6 +476,13 @@
 :straight t 
 :ensure t
 :bind ("C-<f11>" .  olivetti-mode))
+#+end_src
+**** column marker
+#+begin_src emacs-lisp
+(setq display-fill-column-indicator-column 79) 
+
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+(add-hook 'text-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
 **** bibtex
 #+begin_src emacs-lisp
@@ -1785,4 +1799,3 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
 ;; А вот эта строка должна быть в самом конце
 (cfg:reverse-input-method 'russian-computer)
 #+end_src
-
