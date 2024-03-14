@@ -6,15 +6,25 @@
 #+OPTIONS: html-style:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css"/>
 * Настройка системы
-Это настройка операционной системы linux  и автоматизация системы. Mеня зовут Владимир 
-Рязанцев  и много времени  помимо работы провожу за компьютером там хранятся много
-данных и личного. 
-И мне бы хотелось всё это привести в порядок и автоматизировать как пользователю.
+Это настройка операционной системы linux  и автоматизация системы. Mеня зовут Владимир Рязанцев  и много времени  помимо работы провожу за компьютером там хранятся много данных и личного. 
+Mне бы хотелось всё это привести в порядок и автоматизировать как пользователю.
 Вот и приступим к наведению порядка.
 ** i3wm
+*** xsessionrc
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:shell: :tangle ~/.xsessionrc  :shebang "#!/bin/sh"
+:END:
+
+**** переключение расклатки клавиотуры
+#+begin_src shell 
+# exec setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"
+#+end_src
+
 ** tmux
 ** Командная оболочка
-*** zshrc
+*** zsh
+**** .zshrc
 :PROPERTIES:
 :CUSTOM_ID: init
 :header-args:sh: :tangle ~/.zshrc-test :mkdirp yes :shebang ";;"
@@ -206,6 +216,12 @@
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
 #+end_src
 **** TODO Path
+где храняться настройки emacs
+#+begin_src emacs-lisp
+(setq emacs-conf user-emacs-directory )
+#+end_src
+
+Подключение системных путей без них не работает пакет *lsp*.
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
   :straight t
@@ -214,13 +230,14 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 #+end_src
-
+Включим пути *XDG* для доступа к папкам изображение, музыка,
+видео, и.т.д независимо от языка системы и операционной системы.
 #+begin_src emacs-lisp
    (require 'xdg)
 
    (cond
-     ((equal system-configuration "x86_64-pc-linux-gnu")
-      (setq
+    ((equal system-configuration "x86_64-pc-linux-gnu")
+     (setq
       VIDEOS_DIR (xdg-user-dir "VIDEOS")
       PICTURES_DIR (xdg-user-dir "PICTURES")
       MUSIC_DIR (xdg-user-dir "MUSIC")
@@ -246,12 +263,29 @@
       )))
 #+end_src
 
-Пути пользователя
+Пути пользователя 
 
 #+begin_src emacs-lisp
-  (setq
-   ORG_MODE_DIR DOCUMENTS_DIR
-   DEFT_DIR (mkdirp (concat ORG_MODE_DIR "/Notes")))
+(setq
+ ORG_MODE_DIR DOCUMENTS_DIR
+ DEFT_DIR (mkdirp (concat ORG_MODE_DIR "/Notes"))
+)
+#+end_src
+
+Включить файл с путями пользователя
+
+#+begin_src emacs-lisp
+(load-file  (concat emacs-conf "env-privat.el"))
+#+end_src
+
+***** Личные пути к настройкам
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:emacs-lisp: :tangle ~/.emacs.d/env-privat.el :mkdirp yes :shebang ""
+:END:
+
+#+begin_src emacs-lisp
+(provide 'env-privat)
 #+end_src
 **** Имя операционной системы
 #+begin_src emacs-lisp
@@ -561,6 +595,12 @@
     :bind
     (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
 
+#+end_src
+**** подсчёт слов
+#+begin_src emacs-lisp
+(use-package wc-mode
+  :ensure t
+  :straight t)
 #+end_src
 **** org-theme
 #+begin_src emacs-lisp
