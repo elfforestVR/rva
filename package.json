@@ -1,0 +1,24 @@
+{
+  "name": "desolate_green_world",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "rva",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.10.0",
+    "electron": "^29.1.4",
+    "electron-reloader": "^1.2.3",
+    "f": "^1.4.0",
+    "file-loader": "^6.2.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.47.0"
+  }
+}

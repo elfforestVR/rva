@@ -1,5 +1,0 @@
-#+TITLE: title
-#+AUTHOR: Vladimir Ryazansew
-#+EMAIL: elf.forest@yandex.ru
-#+DATE:
-#+OPTIONS: num:nil
