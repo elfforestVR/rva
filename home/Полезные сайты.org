@@ -4,3 +4,10 @@
 #+DATE: Воскресенье, марта 10 2024
 #+OPTIONS: num:nil
 
+* Учим программировать
+** Видно уроки
+*** с++
+[[https://www.youtube.com/watch?v=qK8-DPWwRmY&list=PL6x9Hnsyqn2Xnv4WLI7iLnsQZIUuR9oP3][C++ с нуля]]
+[[https://www.youtube.com/watch?v=SM3Klt2rY8g&list=PL6x9Hnsyqn2UwWjSvjCzAY6sEOBrHY7VH][CMake с нуля]]
+[[https://www.youtube.com/playlist?list=PL6x9Hnsyqn2XU7vc8-oFLojbibK91fVd-][Делаем игровой движок на C++ и OpenGL с нуля]]
+[[https://www.youtube.com/watch?v=g_4ud0xXt9c&list=PL6x9Hnsyqn2XfzD5GK-xjsOplPWP-ByYW][3D Game Engine]]

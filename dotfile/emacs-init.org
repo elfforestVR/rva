@@ -242,9 +242,10 @@ h*** запретить emacs создавать файлы резервных �
 
 Пути пользователя
 #+begin_src emacs-lisp
-  (setq
+(setq
    ORG_MODE_DIR DOCUMENTS_DIR
-   DEFT_DIR (mkdirp (concat ORG_MODE_DIR "/Notes")))
+   DEFT_DIR "~/WVR/notes"
+)
 #+end_src
 *** Имя операционной системы
 #+begin_src emacs-lisp
@@ -790,16 +791,42 @@ fixed-pitch))
       :bind (("C-<f6>" . deft-find-file)
 	     ("<f6>" . deft))
       :config 
-      (setq deft-default-extension "org")
-      (setq deft-extensions '("org"))
-      (setq deft-directory DEFT_DIR)
-      (setq deft-recursive t)
-      (setq deft-use-filename-as-title nil)
-      (setq deft-use-filter-string-for-filename t)
-      (setq deft-file-naming-rules '((noslash . "-")
+ 
+      (setq deft-extensions '("org" "txt" "md")
+	    deft-directory DEFT_DIR
+	    deft-default-extension "org"
+	    deft-recursive t
+	    deft-use-filename-as-title nil
+	    deft-use-filter-string-for-filename t
+	    deft-file-naming-rules '((noslash . "-")
 				     (nospace . "-")
 				     (case-fn . downcase)))
+
+      (when (not (file-exists-p  deft-directory))
+	(mkdir deft-directory))
+
+      (add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
+
+      (define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
+
       (setq deft-text-mode 'org-mode)
+      
+      (defun kill-all-deft-notes ()
+	(interactive)
+	(save-excursion
+	  (let((count 0))
+	    (dolist(buffer (buffer-list))
+        (set-buffer buffer)
+        (when (not (eq nil deft-note-mode))
+          (setq count (1+ count))
+          (kill-buffer buffer))))))
+
+      (defun deft-or-close () 
+	(interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
+			  (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
+			(deft)))
+      (global-set-key [f6] 'deft-or-close)
+
       )
 
 #+end_src
