@@ -9,27 +9,6 @@
 Это настройка операционной системы linux  и автоматизация системы. Mеня зовут Владимир Рязанцев  и много времени  помимо работы провожу за компьютером там хранятся много данных и личного. 
 Хочется  всё это привести в порядок и автоматизировать как пользователю.
 Вот и приступим к наведению порядка.
-** i3wm
-*** xsessionrc
-:PROPERTIES:
-:CUSTOM_ID: init
-:header-args:shell: :tangle ~/.xsessionrc  :shebang "#!/bin/sh"
-:END:
-
-**** переключение расклатки клавиотуры
-#+begin_src shell 
-# exec setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"
-#+end_src
-
-
-** tmux
-** Командная оболочка
-*** zsh
-**** .zshrc
-:PROPERTIES:
-:CUSTOM_ID: init
-:header-args:sh: :tangle ~/.zshrc-test :mkdirp yes :shebang ";;"
-:END:
 ** Текстовый редактор emacs
 *** early-init.el
 :PROPERTIES:
@@ -278,7 +257,7 @@
 Включить файл с путями пользователя
 
 #+begin_src emacs-lisp
-(load-file  (concat emacs-conf "env-privat.el"))
+;;(load-file  (concat emacs-conf "env-privat.el"))
 #+end_src
 
 ***** Личные пути к настройкам
@@ -1021,26 +1000,31 @@ With a prefix ARG, remove start location."
 	   (python-mode     . lsp-deferred)
 	   (ruby-mode       . lsp-deferred))
     :commands (lsp lsp-deferred)
-    :custom
-    ;; what to use when checking on-save. "check" is default, I prefer clippy
-    (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-eldoc-render-all nil)
-    (lsp-idle-delay 0.6)
-    (lsp-signature-render-documentation nil)
-    (lsp-eldoc-enable-hover nil)
-    ;; enable / disable the hints as you prefer:
-    (lsp-rust-analyzer-server-display-inlay-hints nil)
-    (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-    (lsp-rust-analyzer-display-chaining-hints nil)
-    (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-    (lsp-rust-analyzer-display-closure-return-type-hints nil)
-    (lsp-rust-analyzer-display-parameter-hints nil)
-    (lsp-rust-analyzer-display-reborrow-hints nil)
+  :custom
+  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints as you prefer:
+  (lsp-inlay-hint-enable t)
+  ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
+    
 
     :config
-    (setq lsp-enable-completion-at-point t))
+    (setq lsp-enable-completion-at-point t)
+    (setq lsp-prefer-capf t)
+    (setq lsp-completion-provider :capf)
+    (setq lsp-completion-enable t)
 
+    (add-hook 'rust-mode-hook 'lsp-deferred)
 
+)
   (use-package lsp-ui
   :straight t
     :after lsp-mode
@@ -1060,7 +1044,7 @@ With a prefix ARG, remove start location."
 
     (lsp-ui-sideline-enable t)
     (lsp-ui-sideline-show-code-actions t)
-    ;;(lsp-ui-doc-enable nil)
+    (lsp-ui-doc-enable nil)
 
     )
 
@@ -1073,7 +1057,15 @@ With a prefix ARG, remove start location."
 
     )
 
-  (use-package eglot :straight t :ensure t)
+  (use-package eglot 
+    :straight t 
+    :ensure t
+    :config 
+    (add-hook 'rust-mode-hook 'eglot-ensure)
+    (add-to-list 'eglot-server-programs
+             '((rust-ts-mode rust-mode) .
+               ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
+)
 
   (use-package eglot-java
     :straight t
@@ -1133,6 +1125,18 @@ With a prefix ARG, remove start location."
  ;; Use C-/ to manually start company mode at point. C-/ is used by undo-tree.
   ;; Override all minor modes that use C-/; bind-key* is discussed below.
 (bind-key* "C-`" #'company-manual-begin)
+
+(use-package company-lsp
+  :straight t
+    :ensure t
+  :requires company
+  :config
+  (push 'company-lsp company-backends)
+
+   ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
 
 #+end_src
 **** lua

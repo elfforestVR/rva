@@ -1,1 +1,8 @@
 https://habr.com/ru/companies/macloud/articles/564182/
+* rust
+https://doc.rust-lang.org/std/index.html
+https://metanit.com/rust/tutorial/8.1.php
+* org-mode 
+https://doc.norang.ca/org-mode.html
+* игры обучаюцие
+http://www.dungeonsanddevelopers.com/#_ab_12_Your%20Name
