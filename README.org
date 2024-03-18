@@ -1,0 +1,8 @@
+#+TITLE: README
+#+AUTHOR: Vladimir Ryazansew
+#+EMAIL: elf.forest@yandex.ru
+#+DATE: Понедельник, марта 18 2024
+#+OPTIONS: num:nil
+
+* настройка операционной системы
+

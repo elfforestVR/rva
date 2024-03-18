@@ -6,7 +6,7 @@ try {
   require('electron-reloader')(module
 );}catch{}
 
-let mainWindow;
+let MAIN_WINDOWS;
 
 const MENU_BAR = [
   {
@@ -48,8 +48,13 @@ const MENU_BAR = [
 
 ]
 
+
+
 const MENU = Menu.buildFromTemplate(MENU_BAR);
 Menu.setApplicationMenu(MENU);
+
+
+
 
 
 function createWindow () {
@@ -64,7 +69,16 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-    }
+			// показзывать вкладкт
+			nodeIntegration: true, 
+			contextIsolation: false,
+			webviewTag: true,
+
+			preload: path.join(__dirname, 'preload.js')
+    },
+
+
+
   })
 
   // and load the index.html of the app.
