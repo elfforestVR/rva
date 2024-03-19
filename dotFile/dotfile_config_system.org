@@ -548,14 +548,13 @@ https://joostkremers.github.io/ebib/ebib-manual.html
 #+begin_src emacs-lisp
   (use-package ebib
     :straight t
-  :defer t
-  :ensure t
-  :custom
-  (ebib-preload-bib-files '("/home/elf/greenWorldOfElves/home/Books/BOOK.bib"))
-  (ebib-bib-search-dirs '("/home/elf/greenWorldOfElves/home/Books"))
-)
-  
-)
+    :defer t
+    :ensure t
+    :custom
+    (ebib-preload-bib-files '("/home/elf/greenWorldOfElves/home/Books/BOOK.bib"))
+    (ebib-bib-search-dirs '("/home/elf/greenWorldOfElves/home/Books"))
+    )
+
 #+end_src
 **** подсчёт слов
 #+begin_src emacs-lisp
@@ -787,8 +786,6 @@ fixed-pitch))
       (setq deft-text-mode 'org-mode)
       )
 
-(when (not (file-exists-p  deft-directory))
-  (mkdir deft-directory))
 
 (add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
 
@@ -827,7 +824,7 @@ fixed-pitch))
       calendar-longitude 39.1843
       calendar-location-name "Воронежа, Воронежская область, Россия")
 
-(setq diary-file (concat +documents_dir+ "/diary"))
+(setq diary-file (concat ROOT_DIR "/diary"))
 #+end_src
 **** org-roam
 #+begin_src bash :tangle ~/.emacs.d/install.sh
@@ -1878,7 +1875,8 @@ https://www.youtube.com/watch?v=f7xB2fFk1tQ&list=PLEoMzSkcN8oNPbEMYEtswOVTvq7CVd
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 0 9))))
 
-  (exwm-enable))
+  ;; (exwm-enable)
+)
 
 #+end_src
 ***** настройка XStart
