@@ -5,7 +5,7 @@ if [[ -f /bin/dialog ]]; then
   sudo apt install -y dialog
 fi
 
-array="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku zsh clangd cmake build-essential tmux maven librust-libudev-sys-dev"
+array="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku zsh clangd cmake build-essential tmux maven librust-libudev-sys-dev fonts-firacode fonts-cantarell"
 
 echo "$array"
 # for item in ${array[*]}

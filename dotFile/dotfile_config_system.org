@@ -53,17 +53,13 @@ XDG_DOCUMENTS_DIR="$HOME/greenWorldOfElves/home/Documents"
 XDG_MUSIC_DIR="$HOME/greenWorldOfElves/home/Music"
 XDG_PICTURES_DIR="$HOME/greenWorldOfElves/home/Pictures"
 XDG_VIDEOS_DIR="$HOME/greenWorldOfElves/home/Videos"
-
-# Рабочая дериктория
 XDG_ROOT_DIR="$HOME/greenWorldOfElves"
-
-# Личные папки
 XDG_PROJECTS_DIR="$HOME/greenWorldOfElves/home/Projects"
 XDG_ACADEMY_DIR="$HOME/greenWorldOfElves/home/Academy"
 XDG_COOKING_DIR="$HOME/greenWorldOfElves/home/Cooking"
 XDG_NOTES_DIR="$HOME/greenWorldOfElves/home/Notes"
 XDG_JOURNAL_DIR="$HOME/greenWorldOfElves/home/Journal"
-XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
+XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+end_src
 
 ** Текстовый редактор emacs
@@ -83,7 +79,10 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
 :CUSTOM_ID: init
 :header-args:emacs-lisp: :tangle ~/.emacs.d/init.el :mkdirp yes :shebang ";;-*- mode: emacs-lisp; lexical-binding: t; no-byte-compile: t -*-"
 :END:
-
+**** Debug
+#+begin_src emacs-lisp
+(setq debug-on-error t)
+#+end_src
 **** Запуск emacs как сервер
 
 #+begin_src emacs-lisp :lexical no
@@ -272,6 +271,14 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
 #+begin_src emacs-lisp
 (require 'xdg)
 
+(defun xdg-get-path (dir-name-xdg &optional concat-name)
+  ""
+  (let ((dir (substring (shell-command-to-string (concat "xdg-user-dir " dir-name-xdg)) 0 -1)))
+    (if concat-name
+        (expand-file-name concat-name dir)
+        dir)))
+
+
 (setq
  VIDEOS_DIR (xdg-user-dir "VIDEOS")
  PICTURES_DIR (xdg-user-dir "PICTURES")
@@ -281,48 +288,30 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
  TEMPLATES_DIR (xdg-user-dir "TEMPLATES")
  DOWNLOAD_DIR (xdg-user-dir "DOWNLOAD")
  DESKTOP_DIR (xdg-user-dir "DESKTOP")
- NOTES_DIR (xdg-user-dir "JOURNAL")
  )
-#+end_src
 
-Пути пользователя основные но они в дальнейшем будут переопределены. 
-- Назначение по умолчанию.
+(setq 
+ PROJECTS_DIR (xdg-get-path "PROJECTS")
+ ACADEMY_DIR (xdg-get-path "ACADEMY")
+ COOKING_DIR (xdg-get-path "COOKING")
+ NOTES_DIR (xdg-get-path "NOTES")
+ JOURNAL_DIR (xdg-get-path "JOURNAL")
+ BOOKS_DIR (xdg-get-path "BOOKS")
+ ROOT_DIR (xdg-get-path "ROOT")
+)
+
+#+end_src
 
 #+begin_src emacs-lisp
 (setq
  ORG_MODE_DIR DOCUMENTS_DIR
- DEFT_DIR (mkdirp (concat ORG_MODE_DIR "/Notes"))
- PROJECTS "~/Projects"
+ DEFT_DIR (mkdirp NOTES_DIR)
+ PROJECTS (mkdirp PROJECTS_DIR)
+ JOURNAL (mkdirp JOURNAL_DIR)
+ BOOK (mkdirp BOOKS_DIR)
 )
 #+end_src
 
-Включить файл с путями пользователя
-
-#+begin_src emacs-lisp
-;;(load-file  (concat emacs-conf "env-privat.el"))
-#+end_src
-
-***** Личные пути к настройкам
-:PROPERTIES:
-:CUSTOM_ID: init
-:header-args:emacs-lisp: :tangle ~/.emacs.d/env-privat.el :mkdirp yes :shebang ""
-:END:
-
-Переопределение путей пользователя этот  блок  можно удалить
-
-#+begin_src emacs-lisp
-;; назначим путь к папки пользователч
-(setq user-directory "~/rva")
-
-;; переназначим пути на новые
-(setq
- ORG_MODE_DIR DOCUMENTS_DIR
- DEFT_DIR (mkdirp (concat ORG_MODE_DIR "/Notes"))
- PROJECTS "~/Projectsw"
-)
-
-(provide 'env-privat)
-#+end_src
 **** Имя операционной системы
 #+begin_src emacs-lisp
 (cond
@@ -554,83 +543,19 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (add-hook 'text-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
-**** bibtex
+**** TODO bibtex 
+https://joostkremers.github.io/ebib/ebib-manual.html
 #+begin_src emacs-lisp
-    (setq
-  completion-bibliography '("/home/elf/Doc/BOOK/BOOK.bib")
-  completion-library-path '("/home/elf/Doc/BOOK/pdfs")
-  completion-notes-path '("/home/elf/Doc/BOOK/notes")
-  bibtex-file-path completion-notes-path)
-
-  (setq bibtex-completion-bibliography completion-bibliography
-	bibtex-completion-library-path completion-library-path
-	bibtex-completion-notes-path completion-notes-path
-	bibtex-completion-find-additional-pdfs t
-	bibtex-completion-pdf-extension '(".pdf" ".html" ".epub" )
-	bibtex-dialect 'biblatex
-	bibtex-file-path bibtex-file-path
-	bibtex-files '(bibtex-file-path)
-	bibtex-autokey-year-length 0
-	bibtex-autokey-names 2
-	bibtex-autokey-names-stretch 1
-	bibtex-autokey-additional-names "EtAl"
-	bibtex-autokey-name-case-convert-function 'capitalize
-	bibtex-autokey-name-year-separator nil
-	bibtex-autokey-year-title-separator "-"
-	bibtex-autokey-titleword-separator ""
-	bibtex-autokey-titlewords 2
-	bibtex-autokey-titlewords-stretch 1
-	bibtex-autokey-titleword-length "infnty"
-	bibtex-autokey-titleword-case-convert-function 'capitalize
-	bibtex-autokey-before-presentation-function 'xah-asciify-string)
-
-
-  (use-package marginalia
-    :ensure t
-    :straight t
-    :config
-    (marginalia-mode))
-
   (use-package ebib
-      :ensure t
-      :straight t
-      :config
-      (org-add-link-type "ebib" 'ebib)
-  )
-
-  ;;; EBIB
-  (setq
-  keywords-file '("/home/elf/Doc/BOOK/notes"))
-  (setq ebib-bibtex-dialect 'biblatex
-	ebib-preload-bib-files completion-bibliography
-	ebib-use-timestamp t ;; todo customize on export info:ebib#Timestamps
-	ebib-file-search-dirs completion-library-path
-	ebib-notes-directory completion-notes-path
-	ebib-notes-storage 'one-file-per-note
-	ebib-notes-locations completion-notes-path
-	ebib-notes-default-file nil 
-	ebib-keywords-file keywords-file
-	ebib-keywords-field-keep-sorted t
-	ebib-keywords-file-save-on-exit 'always
-	ebib-notes-show-note-method 'top-lines
-	ebib-notes-display-max-lines 300
-	ebib-popup-entry-window nil ;; no effect unless ebib-layout set to ’index-only
-	ebib-layout 'index-only)
-
-
-  (use-package citar
-    :no-require
     :straight t
-    :custom
-    (org-cite-global-bibliography completion-bibliography)
-    (org-cite-insert-processor 'citar)
-    (org-cite-follow-processor 'citar)
-    (org-cite-activate-processor 'citar)
-    (citar-bibliography org-cite-global-bibliography)
-    ;; optional: org-cite-insert is also bound to C-c C-x C-@
-    :bind
-    (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
-
+  :defer t
+  :ensure t
+  :custom
+  (ebib-preload-bib-files '("/home/elf/greenWorldOfElves/home/Books/BOOK.bib"))
+  (ebib-bib-search-dirs '("/home/elf/greenWorldOfElves/home/Books"))
+)
+  
+)
 #+end_src
 **** подсчёт слов
 #+begin_src emacs-lisp
@@ -862,8 +787,48 @@ fixed-pitch))
       (setq deft-text-mode 'org-mode)
       )
 
-#+end_src
+(when (not (file-exists-p  deft-directory))
+  (mkdir deft-directory))
 
+(add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
+
+(define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
+
+(setq deft-text-mode 'org-mode)
+
+(defun kill-all-deft-notes ()
+  (interactive)
+  (save-excursion
+    (let((count 0))
+      (dolist(buffer (buffer-list))
+        (set-buffer buffer)
+        (when (not (eq nil deft-note-mode))
+          (setq count (1+ count))
+          (kill-buffer buffer))))))
+
+(defun deft-or-close () 
+  (interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
+  (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
+  (deft)))
+(global-set-key [f6] 'deft-or-close)
+
+#+end_src
+**** clalendar
+#+begin_src emacs-lisp
+(setq calendar-week-start-day 1
+      calendar-day-name-array ["Воскресенье" "Понедельник" "Вторник" "Среда" "Четверг" "Пятница" "Суббота"]
+      calendar-day-header-array ["Вс" "Пн" "Вт" "Ср" "Чт" "Пт" "Сб"]
+      calendar-day-abbrev-array ["Вск" "Пнд" "Втр" "Сре" "Чтв" "Птн" "Суб"]
+      calendar-month-name-array ["Январь" "Февраль" "Март" "Апрель" "Май" "Июнь" "Июль" "Август" "Сентябрь"
+				 "Октябрь" "Ноябрь" "Декабрь"]
+      calendar-month-abbrev-array ["Янв" "Фев" "Мар" "Апр" "Май" "Июн" "Июл" "Авг" "Сен" "Окт" "Ноя" "Дек"])
+
+(setq calendar-latitude 51.672
+      calendar-longitude 39.1843
+      calendar-location-name "Воронежа, Воронежская область, Россия")
+
+(setq diary-file (concat +documents_dir+ "/diary"))
+#+end_src
 **** org-roam
 #+begin_src bash :tangle ~/.emacs.d/install.sh
   sudo apt install sqlite
@@ -1542,7 +1507,7 @@ With a prefix ARG, remove start location."
     #+begin_src emacs-lisp
 (use-package org-journal
   :straight t
-  :config (setq org-journal-dir (concat DOCUMENTS_DIR "/Journal")
+  :config (setq org-journal-dir JOURNAL
                 org-journal-file-type 'monthly
                 org-journal-find-file 'find-file
                 org-journal-file-format "%Y-%m-%d.org"
@@ -1810,64 +1775,6 @@ With a prefix ARG, remove start location."
         (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
 (load custom-file t)
 #+end_src
-**** exwm
-
-https://github.com/ch11ng/exwm/wiki/Configuration-Example
-https://github.com/ch11ng/exwm/wiki
-https://pbrown.me/blog/exwm-raspberry-pi/
-https://systemcrafters.net/emacs-desktop-environment/
-youTube
-https://www.youtube.com/watch?v=f7xB2fFk1tQ&list=PLEoMzSkcN8oNPbEMYEtswOVTvq7CVddCS
-
-#+begin_src emacs-lisp 
-(use-package exwm
-  :ensure t
-  :straight t
-  :config 
-  (require 'exwm)
-  (require 'exwm-config)
-  
-)
-#+end_src
-***** настройка XStart
-:PROPERTIES:
-:CUSTOM_ID: init
-:header-args:bash: :tangle ~/.emacs.d/exwm/exwm.desktop :mkdirp yes 
-:END:
-#+begin_src bash 
-[Desktop Entry]
-Name=EmacsWM
-Comment=Emacs Window Manager
-Exec=emacs
-Type=Application
-
-  # [Desktop Entry]
-  # Name=EXWM
-  # Comment=Emacs Window Manager
-  # Exec=sh /home/elf/.emacs.d/exwm/start-exwm.sh
-  # TryExec=sh
-  # Type=Application
-  # X-LightDM-DesktopName=exwm
-  # DesktopNames=exwm
-
-
-
-# [Desktop Entry]
-# Name=Emacs
-# Exec=emacs
-# Type=Application
-
-#+end_src
-*****  script start EXWM
-:PROPERTIES:
-:CUSTOM_ID: init
-:header-args:bash: :tangle ~/.emacs.d/exwm/start-exwm.sh :mkdirp yes :shebang "#!/bin/env bash"
-:END:
-#+begin_src bash
-spice-vdagent
-exec dbus-launch --exit-with-session emacs -mm --debug-init
-#+end_src
-- настройте это с помощью =sudo ln -f -s  /home/elf/.emacs.d/exwm/exwm.desktop /usr/share/xsessions/exwm.desktop=
 **** test
 #+begin_src emacs-lisp
 ;; (add-hook 'after-save-hook 
@@ -1891,9 +1798,131 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
 (use-package use-package-hydra
   :straight t)
 #+end_src
+**** exwm
+
+https://github.com/ch11ng/exwm/wiki/Configuration-Example
+https://github.com/ch11ng/exwm/wiki
+https://pbrown.me/blog/exwm-raspberry-pi/
+https://systemcrafters.net/emacs-desktop-environment/
+youTube
+https://www.youtube.com/watch?v=f7xB2fFk1tQ&list=PLEoMzSkcN8oNPbEMYEtswOVTvq7CVddCS
+
+#+begin_src emacs-lisp 
+
+(defun efs/exwm-update-class ()
+  (exwm-workspace-rename-buffer exwm-class-name))
+
+(use-package exwm
+  :straight t
+  :config
+  ;; Set the default number of workspaces
+  (setq exwm-workspace-number 5)
+
+  ;; When window "class" updates, use it to set the buffer name
+  (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+
+  ;; Rebind CapsLock to Ctrl
+  (start-process-shell-command "xmodmap" nil "xmodmap ~/.emacs.d/exwm/Xmodmap")
+
+  ;; Set the screen resolution (update this to be the correct resolution for your screen!)
+  (require 'exwm-randr)
+  (exwm-randr-enable)
+  ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
+
+  ;; Load the system tray before exwm-init
+  (require 'exwm-systemtray)
+  (exwm-systemtray-enable)
+
+  ;; These keys should always pass through to Emacs
+  (setq exwm-input-prefix-keys
+    '(?\C-x
+      ?\C-u
+      ?\C-h
+      ?\M-x
+      ?\M-`
+      ?\M-&
+      ?\M-:
+      ?\C-\M-j  ;; Buffer list
+      ?\C-\ ))  ;; Ctrl+Space
+
+  ;; Ctrl+Q will enable the next key to be sent directly
+  (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+
+  ;; Set up global key bindings.  These always work, no matter the input state!
+  ;; Keep in mind that changing this list after EXWM initializes has no effect.
+  (setq exwm-input-global-keys
+        `(
+          ;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)
+          ([?\s-r] . exwm-reset)
+
+          ;; Move between windows
+          ([s-left] . windmove-left)
+          ([s-right] . windmove-right)
+          ([s-up] . windmove-up)
+          ([s-down] . windmove-down)
+
+          ;; Launch applications via shell command
+          ([?\s-&] . (lambda (command)
+                       (interactive (list (read-shell-command "$ ")))
+                       (start-process-shell-command command nil command)))
+
+          ;; Switch workspace
+          ([?\s-w] . exwm-workspace-switch)
+          ([?\s-`] . (lambda () (interactive) (exwm-workspace-switch-create 0)))
+
+          ;; 's-N': Switch to certain workspace with Super (Win) plus a number key (0 - 9)
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))))
+
+  (exwm-enable))
+
+#+end_src
+***** настройка XStart
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:bash: :tangle ~/.emacs.d/exwm/exwm.desktop :mkdirp yes 
+:END:
+#+begin_src bash 
+[Desktop Entry]
+Name=EXWM
+Comment=Emacs Window Manager
+Exec=sh /home/elf/.emacs.d/exwm/start-exwm.sh
+TryExec=sh
+Type=Application
+X-LightDM-DesktopName=exwm
+DesktopNames=exwm
+#+end_src
+*****  script start EXWM
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:bash: :tangle ~/.emacs.d/exwm/start-exwm.sh :mkdirp yes :shebang "#!/bin/env bash"
+:END:
+
+#+begin_src bash
+exec dbus-launch --exit-with-session emacs -mm --debug-init
+#+end_src
+***** активация
+настройте это с помощью 
+
+#+begin_src bash
+sudo ln -f -s  /home/elf/.emacs.d/exwm/exwm.desktop /usr/share/xsessions/exwm.desktop
+#+end_src
+
+Перезагрузить
+
+#+begin_src bash
+sudo systemctl restart gdm
+#+end_src
 **** Хоткеи на русской раскладке конец
 #+begin_src emacs-lisp
 ;; ========== Хоткеи на русской раскладке
 ;; А вот эта строка должна быть в самом конце
 (cfg:reverse-input-method 'russian-computer)
 #+end_src
+* Благодарности
+Ричарду Столману и Гаю Стилу, подарившим миру Emacs
+[[http://doc.norang.ca/org-mode.html][Организационный режим - организуйте свою жизнь простым текстом!(US)]]
