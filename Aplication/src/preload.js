@@ -1,3 +1,0 @@
-window.myAPI = {
-  desktop: true
-}

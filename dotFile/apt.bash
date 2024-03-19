@@ -1,14 +1,11 @@
 #!/bin/env bash
 
-
 echo -e "начало устоновки программ"
 if [[ -f /bin/dialog ]]; then
- sudo apt install -y dialog
+  sudo apt install -y dialog
 fi
 
-array="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku zsh clangd cmake build-essential tmux maven"
-
-
+array="mc sbcl git curl spell aspell aspell-ru graphviz openjdk-19-jre-headless hunspell hunspell-ru buku zsh clangd cmake build-essential tmux maven librust-libudev-sys-dev"
 
 echo "$array"
 # for item in ${array[*]}
@@ -21,3 +18,5 @@ echo "$array"
 # zsh по умолчанию
 
 chsh -s $(which zsh)
+
+sudo snap install rust-analyzer --beta

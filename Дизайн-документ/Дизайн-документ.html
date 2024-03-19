@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+<!-- 2024-03-19 Вт 12:09 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Дизайн-документ</title>
+<meta name="author" content="Vladimir Ryazansew" />
+<meta name="description" content="Org-HTML export made simple." />
+<meta name="keywords" content="org-mode, export, html, theme, style, css, js, bigblow" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="org.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Дизайн-документ</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>&#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org43dc05f">1. История дизайна</a>
+<ul>
+<li><a href="#orgc98e40b">1.1. Версия 1.10</a></li>
+</ul>
+</li>
+<li><a href="#org04863f0">2. Обзор игры</a>
+<ul>
+<li><a href="#orgce1e56e">2.1. Философия</a></li>
+</ul>
+</li>
+<li><a href="#org8807a8e">3. Часто задаваемые вопросы</a></li>
+<li><a href="#orgdd18809">4. Набор свойств</a></li>
+<li><a href="#org3b9b36d">5. Игровой мир</a></li>
+<li><a href="#orgdf1840d">6. Рендеринг системы</a></li>
+<li><a href="#orge3552be">7. Камера</a></li>
+<li><a href="#orga3400e8">8. Игровой движок</a></li>
+<li><a href="#org7500b82">9. Модель освещения</a></li>
+<li><a href="#org9db3460">10. Расположение мира</a></li>
+<li><a href="#orga4b2662">11. Игровые персонажи</a></li>
+<li><a href="#orge2c037a">12. Пользовательский интерфейс</a></li>
+<li><a href="#org1cec448">13. Оружие</a></li>
+<li><a href="#orgf7e76da">14. Музыка и звуковые спецэффекты</a></li>
+<li><a href="#org62b96a2">15. Однопользовательская игра</a></li>
+<li><a href="#org82f5250">16. Многопользовательская игра</a></li>
+<li><a href="#orgbd004b1">17. Визуализация персонажа</a></li>
+<li><a href="#orgde2593d">18. Редактирование мира</a></li>
+<li><a href="#orgccfa62e">19. Дополнительные материалы</a></li>
+<li><a href="#org0540f90">20. “XYZ Дополнение”</a></li>
+<li><a href="#orgae8b91e">21. “Объекты Дополнение”</a></li>
+<li><a href="#orgc3417f3">22. “Пользовательский интерфейс Дополнение”</a></li>
+<li><a href="#orgb38d4d7">23. “Организация сети Дополнение”</a></li>
+<li><a href="#orgabc385a">24. “Визуализация персонажа и анимации Дополнение”</a></li>
+<li><a href="#org46a251c">25. “История Дополнение”</a></li>
+</ul>
+</div>
+</div>
+<p>
+<b>Дизайн-документ для: игры</b>
+ <b>зелёный мир эльфов</b>
+</p>
+
+<blockquote>
+<p>
+Тут должна быть короткая шутка про игру
+</p>
+</blockquote>
+
+<p>
+“Или здесь”™
+</p>
+
+<p>
+All work Copyright ©2024 Владимир Рязанцев (2024)
+</p>
+
+<p>
+Автор – Владимир Рязанцев
+</p>
+
+
+<p>
+Версия # 1.00
+</p>
+<div id="outline-container-org43dc05f" class="outline-2">
+<h2 id="org43dc05f"><span class="section-number-2">1.</span> История дизайна</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+В данной статье даётся краткое описание истории этого документа.
+</p>
+
+<p>
+В этом пункте описывают читателю то, чего вы пытаетесь достичь с историей дизайна.  Не исключено, что они не знают, что это такое, и вы должны объяснить им это.
+</p>
+</div>
+<div id="outline-container-orgc98e40b" class="outline-3">
+<h3 id="orgc98e40b"><span class="section-number-3">1.1.</span> Версия 1.10</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Версия 1.10 включает в себя некоторые дополнительные регулировки и настройки, которые я сделал после начального этапа дизайна.  Вот то, что я изменил.
+</p>
+
+<p>
+Я переписал раздел о том, как игра работает и его систему.
+Я включил отзывы от команды во всех частях дизайна.
+И остальные несерьёзные изменения в документе.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org04863f0" class="outline-2">
+<h2 id="org04863f0"><span class="section-number-2">2.</span> Обзор игры</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgce1e56e" class="outline-3">
+<h3 id="orgce1e56e"><span class="section-number-3">2.1.</span> Философия</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Философский пункт #1
+</p>
+
+<p>
+Эта игра пытается сделать всевозможные вещи.  По сути, я пытаюсь добиться того, что никогда не достигалось прежде.  Или. Эта игра будет вовсе пытаться изменить мир.  Мы обдираем конкурентов так точно, что я не могу в это поверить.  Мир будет потрясён тем, как мы используем существующий движок с новым искусством.
+</p>
+
+<p>
+Философский пункт #2
+</p>
+
+<p>
+Наша игра работает только на компьютерах Compaq.  Причина этого - такие и такие.  По нашему мнению мир идёт к концу, но, так или иначе, какая это разница?
+</p>
+
+<p>
+Философский пункт #3
+</p>
+
+<p>
+При создании некоторых из этих всеобъемлющих философских пунктов о вашем дизайне, говорите всё, что вы хотите.  Кроме того, не стесняйтесь изменять его на "Моя цель в гейм-дизайне" или на что-либо другое.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org8807a8e" class="outline-2">
+<h2 id="org8807a8e"><span class="section-number-2">3.</span> Часто задаваемые вопросы</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Что такое игра?
+</p>
+
+<p>
+Опишите игру.  Это и есть самый распространённый вопрос, который вам зададут.  Над чем вы работаете?
+</p>
+
+<p>
+Зачем создавать эту игру?
+</p>
+
+<p>
+Почему вы создаёте эту игру?  Вам нравятся 3D-шутеры?  Вы думаете, что всё-таки для вас есть место на рынке?
+</p>
+
+<p>
+Какое место занимает игра?
+</p>
+
+<p>
+Опишите мир, в котором происходят действия вашей игры.  Проще простого.  Помогите читателю сформулировать его в сознании, написав здесь несколько предложений.  Вы можете в конце описать более подробно в разделе, посвящённом специально для описания мира.  Не забывайте, что мы хотим сохранить эту часть дизайна наиболее удобно читаемой.
+</p>
+
+<p>
+Что я могу контролировать?
+</p>
+
+<p>
+Опишите то, что и чем игрок будет управлять.  Вы будете отвечать за группу бешеных мутантов скрипачей.  Если хотите, вы можете включить ИИ и превратить его в симуляцию аквариума.
+</p>
+
+<p>
+Сколько я могу контролировать?
+</p>
+
+<p>
+	Если это того касается, говорите немного больше о выборе элементов управления.  Не забудьте добавить ответы на вопросы, которые, как вы считаете, может спросить читатель.  Это полностью зависит от вашего дизайна.
+Что находится в центре внимания?
+</p>
+
+<p>
+Теперь мы знаем, где происходят действия игры, и чем игрок управляет.  Чего они должны достичь на этом свете?  Злые скрипачи должны захватить здание ООН.  Будьте осторожны, чтобы не добавить кучу барахла.  Ваш дизайн должен оставаться читаемым и информативным.
+</p>
+
+<p>
+Что изменилось?
+</p>
+
+<p>
+Скажите им, чем отличается ваша игра от других игр, которые прямо сейчас пытаются продаваться на рынке.  Возникает целый ряд вопросов.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdd18809" class="outline-2">
+<h2 id="orgdd18809"><span class="section-number-2">4.</span> Набор свойств</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Общие свойства
+</p>
+
+<p>
+Огромный мир
+Игроки
+3D-графика
+32-битный цвет
+</p>
+
+<p>
+Многопользовательские свойства
+</p>
+
+<p>
+До 10 миллионов игроков
+Лёгкий путь найти игру
+Лёгкий путь найти своего приятеля в огромном мире
+Возможность общаться по голосовой связи
+</p>
+
+<p>
+Редактор
+</p>
+
+<p>
+Поставляется с редактором мира
+Скачивание уровней из интернета
+Редактор супер удобный в использовании
+</p>
+
+<p>
+Геймплей
+</p>
+
+<p>
+Список вещей, которые являются ключевыми в игровом опыте
+Огромный список многих вещей
+Эй, если у тебя здесь ничего, то стоит ли вообще делать игру?
+</p>
+</div>
+</div>
+<div id="outline-container-org3b9b36d" class="outline-2">
+<h2 id="org3b9b36d"><span class="section-number-2">5.</span> Игровой мир</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Обзор
+</p>
+
+<p>
+Представьте общий обзор игрового мира.
+</p>
+
+<p>
+Свойства мира #1
+</p>
+
+<p>
+Этот раздел не должен называться Свойства мира #1, но он должен хоть как-то называться.  Здесь вы должны огромный кусок геймплея сломать на составные части и описать каждый из них.
+</p>
+
+<p>
+Свойства мира #2
+</p>
+
+<p>
+То же самое и здесь.  Но ещё здесь нужно описать, как вы будете продавать игру.
+</p>
+
+<p>
+Физика мира
+</p>
+
+<p>
+Обзор
+</p>
+
+<p>
+Опишите свой мир.  Затем опишите составляющие этого мира ниже в каждом пункте.
+</p>
+
+<p>
+Ниже описаны основные компоненты вашего материального мира.
+</p>
+
+<p>
+Основные места
+</p>
+
+<p>
+Опишите здесь основные места в мире (например, где происходят действия игры; какие локации встречаются чаще; какие места имеют обучающий элемент или сильно взаимосвязаны с сюжетом игры)
+</p>
+
+<p>
+Движение
+</p>
+
+<p>
+Опишите, как игрок взаимодействует с другими персонажами и что игроку нужно для достижения цели/ей.
+</p>
+
+<p>
+Масштаб
+</p>
+
+<p>
+Опишите, каков размер вашего мира.  Это важно.
+</p>
+
+<p>
+Объекты
+</p>
+
+<p>
+Опишите все объекты, которые можно найти в мире.
+</p>
+
+<p>
+Погода
+</p>
+
+<p>
+Опишите погодные изменения в вашем мире. В противном случае пропустите этот раздел. 
+</p>
+
+<p>
+День и Ночь
+</p>
+
+<p>
+	В вашей игре день сменяется ночью и наоборот?  Если да, то опишите это здесь.
+Время
+	Опишите, насколько скорость времени в вашем мире отличается от реального мира.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdf1840d" class="outline-2">
+<h2 id="orgdf1840d"><span class="section-number-2">6.</span> Рендеринг системы</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите то, как ваша игра будет отображаться, а затем углубитесь в детали в следующем пункте.
+</p>
+
+<p>
+2D/3D Рендеринг
+</p>
+
+<p>
+Опишите, какой 2D/3D движок будет использоваться.
+</p>
+</div>
+</div>
+<div id="outline-container-orge3552be" class="outline-2">
+<h2 id="orge3552be"><span class="section-number-2">7.</span> Камера</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите, каким образом камера будет работать, а потом углубитесь в детали, если камера в плане реализации является очень сложной.
+</p>
+
+<p>
+Свойство камеры #1
+</p>
+
+<p>
+Как камера перемещается.
+</p>
+
+<p>
+Свойство камеры #2
+</p>
+
+<p>
+Где камера перемещается по-другому.
+</p>
+</div>
+</div>
+<div id="outline-container-orga3400e8" class="outline-2">
+<h2 id="orga3400e8"><span class="section-number-2">8.</span> Игровой движок</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите игровой движок в целом.
+</p>
+
+<p>
+Свойство игрового движка #1
+</p>
+
+<p>
+Движок игры будет отслеживать в мире то или то.
+</p>
+
+<p>
+Жидкость
+</p>
+
+<p>
+Как движок будет обрабатывать воду.
+</p>
+
+<p>
+Обнаружение столкновений
+</p>
+
+<p>
+Наш игровой движок обрабатывает обнаружение столкновений действительно хорошо. Он использует такую и такую технику и выглядит превосходно.
+</p>
+</div>
+</div>
+<div id="outline-container-org7500b82" class="outline-2">
+<h2 id="org7500b82"><span class="section-number-2">9.</span> Модель освещения</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Обзор
+</p>
+
+<p>
+	Опишите модель освещения, которую вы собираетесь использовать, а затем разберите его в различных аспектах ниже.
+Свойство модели освещения #1
+</p>
+
+<p>
+Мы используем xyz технику, чтобы осветить наш мир.
+</p>
+
+<p>
+Свойство модели освещения #2
+</p>
+
+<p>
+Зачем освещать баклажаны в игре, если они при любых обстоятельствах фиолетовые.
+</p>
+</div>
+</div>
+<div id="outline-container-org9db3460" class="outline-2">
+<h2 id="org9db3460"><span class="section-number-2">10.</span> Расположение мира</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите это кратко.
+</p>
+
+<p>
+Свойство мира #1
+</p>
+
+<p>
+Свойство мира #2
+</p>
+</div>
+</div>
+<div id="outline-container-orga4b2662" class="outline-2">
+<h2 id="orga4b2662"><span class="section-number-2">11.</span> Игровые персонажи</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите ваших персонажей.
+</p>
+
+<p>
+Создание персонажа
+</p>
+
+<p>
+Как вы создаёте или изменяете персонажей.
+</p>
+
+<p>
+Враги и Монстры
+</p>
+
+<p>
+Опишите врагов или монстров в мире или кого-либо ещё, с кем игрок будет сражаться.  Естественно, это сильно зависит от вашей идеи игры, но, как правило, должна быть попытка что-нибудь убить.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2c037a" class="outline-2">
+<h2 id="orge2c037a"><span class="section-number-2">12.</span> Пользовательский интерфейс</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите составляющие пользовательского интерфейса в разделах ниже.
+</p>
+
+<p>
+Свойство пользовательского интерфейса #1
+</p>
+
+<p>
+Свойство пользовательского интерфейса #2
+</p>
+</div>
+</div>
+<div id="outline-container-org1cec448" class="outline-2">
+<h2 id="org1cec448"><span class="section-number-2">13.</span> Оружие</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите оружие, используемое в игре.
+</p>
+
+<p>
+Свойство оружия #1
+</p>
+
+<p>
+Свойство оружия #2
+</p>
+</div>
+</div>
+<div id="outline-container-orgf7e76da" class="outline-2">
+<h2 id="orgf7e76da"><span class="section-number-2">14.</span> Музыка и звуковые спецэффекты</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+Обзор
+</p>
+
+<p>
+Ну, думаю, смысл вы поняли.	
+</p>
+
+<p>
+Справочник аудио
+</p>
+
+<p>
+Если вы используете справочник, то опишите ваш план здесь.  Если нет, то что вы используете?	
+</p>
+
+<p>
+3D Звук
+</p>
+
+<p>
+Какие API-функции вы собираетесь использовать или не использовать в зависимости от обстоятельств.	
+</p>
+
+<p>
+Звуковое оформление
+</p>
+
+<p>
+Что вы собираетесь сделать со звуковым оформлением на этом раннем этапе.  Эй, опиши хорошо, чтобы читатель знал, о чём вы думаете.
+</p>
+</div>
+</div>
+<div id="outline-container-org62b96a2" class="outline-2">
+<h2 id="org62b96a2"><span class="section-number-2">15.</span> Однопользовательская игра</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите игровой опыт сингла в нескольких предложениях.
+</p>
+
+<p>
+Вот разбивка ключевых компонентов одиночной игры.
+</p>
+
+<p>
+Свойство однопользовательской игры #1
+</p>
+
+<p>
+Свойство однопользовательской игры #2
+</p>
+
+<p>
+История
+</p>
+
+<p>
+Опишите свою идею истории здесь, а затем направьте их в дополнении или отдельные документы, которые обеспечат всю необходимую информацию об истории.
+</p>
+
+<p>
+Время геймплея
+</p>
+
+<p>
+Сколько времени займёт полное прохождение одиночной игры.
+</p>
+
+<p>
+Условия победы
+</p>
+
+<p>
+Что приводит к победе игрока в одиночной игре?
+</p>
+</div>
+</div>
+<div id="outline-container-org82f5250" class="outline-2">
+<h2 id="org82f5250"><span class="section-number-2">16.</span> Многопользовательская игра</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+Обзор
+</p>
+
+<p>
+Опишите в нескольких предложениях, как многопользовательская игра будет работать.
+</p>
+
+<p>
+Максимальное количество игроков
+</p>
+
+<p>
+Опишите, сколько игроков могут играть одновременно.
+</p>
+
+
+<p>
+Серверы
+</p>
+
+<p>
+У вас клиент-сервер или информация передаётся от одного самостоятельного узла к другому, или что-либо другое.
+</p>
+
+<p>
+Настройка
+</p>
+
+<p>
+Опишите, как игроки могут настроить мультиплеер.
+</p>
+
+<p>
+Интернет
+</p>
+
+<p>
+Опишите, как ваша игра будет работать через интернет.
+</p>
+
+<p>
+Игровые сайты
+</p>
+
+<p>
+Опишите, какие игровые сайты вы хотите поддержать, и какие технологии вы собираетесь использовать для достижения этой цели.  Возможно, Dplay или TCP/IP, или что-либо другое.
+</p>
+
+<p>
+Постоянство
+</p>
+
+<p>
+Опишите, ваш мир меняется или нет.
+</p>
+
+<p>
+Сохранение и Загрузка
+</p>
+
+<p>
+Объясните, как вы можете сохранить опыт в многопользователькой игре, а затем загрузить его.  Если вы можете или почему это невозможно.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbd004b1" class="outline-2">
+<h2 id="orgbd004b1"><span class="section-number-2">17.</span> Визуализация персонажа</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+Обзор
+</p>
+
+<p>
+Больше информации относительно ваших персонажей.
+</p>
+
+<p>
+Свойство визуализации персонажа #1
+</p>
+
+<p>
+Свойство визуализации персонажа #2
+</p>
+</div>
+</div>
+<div id="outline-container-orgde2593d" class="outline-2">
+<h2 id="orgde2593d"><span class="section-number-2">18.</span> Редактирование мира</h2>
+<div class="outline-text-2" id="text-18">
+<p>
+Обзор
+</p>
+
+<p>
+Кратко опишите редактор мира.
+</p>
+
+<p>
+Свойство редактирования мира #1
+</p>
+
+<p>
+Свойство редактирования мира #2
+</p>
+</div>
+</div>
+<div id="outline-container-orgccfa62e" class="outline-2">
+<h2 id="orgccfa62e"><span class="section-number-2">19.</span> Дополнительные материалы</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+Обзор
+</p>
+
+<p>
+Все остальные материалы, которые не вошли в разделы выше.
+</p>
+
+<p>
+Я работаю над…
+</p>
+
+<p>
+Сумасшедшая идея #1
+</p>
+
+<p>
+Сумасшедшая идея #2
+</p>
+</div>
+</div>
+<div id="outline-container-org0540f90" class="outline-2">
+<h2 id="org0540f90"><span class="section-number-2">20.</span> “XYZ Дополнение”</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+Также некоторые дополнительные материалы можно описать здесь. Вот несколько примеров…
+</p>
+</div>
+</div>
+<div id="outline-container-orgae8b91e" class="outline-2">
+<h2 id="orgae8b91e"><span class="section-number-2">21.</span> “Объекты Дополнение”</h2>
+</div>
+<div id="outline-container-orgc3417f3" class="outline-2">
+<h2 id="orgc3417f3"><span class="section-number-2">22.</span> “Пользовательский интерфейс Дополнение”</h2>
+</div>
+<div id="outline-container-orgb38d4d7" class="outline-2">
+<h2 id="orgb38d4d7"><span class="section-number-2">23.</span> “Организация сети Дополнение”</h2>
+</div>
+<div id="outline-container-orgabc385a" class="outline-2">
+<h2 id="orgabc385a"><span class="section-number-2">24.</span> “Визуализация персонажа и анимации Дополнение”</h2>
+</div>
+<div id="outline-container-org46a251c" class="outline-2">
+<h2 id="org46a251c"><span class="section-number-2">25.</span> “История Дополнение”</h2>
+<div class="outline-text-2" id="text-25">
+<p>
+Хорошо, вот и всё.  Я хотел провести больше времени за этим и действительно сделать его большой инструкцией для реализации дизайна игры.  К сожалению, это заняло бы уйму времени, и это то, что нам не хватает в этом бизнесе.  Думаю, что вы поняли идею.  Кроме того, создаётся впечатление, что информация в ней предоставлена в особом порядке, но, на самом деле, она в таком порядке случайно зародилась в моей голове.  Этот макет не является идеальным документом, поэтому можете его изменять на своё усмотрение.
+</p>
+
+<p>
+Удачи и тому подобное!
+</p>
+
+<p>
+Владимир Рязанцев
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">&#1044;&#1072;&#1090;&#1072;: Вторник, марта 19 2024</p>
+<p class="author">&#1040;&#1074;&#1090;&#1086;&#1088;: Vladimir Ryazansew</p>
+<p class="date">Created: 2024-03-19 Вт 12:09</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
