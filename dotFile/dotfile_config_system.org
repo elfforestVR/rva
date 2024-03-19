@@ -9,6 +9,64 @@
 Это настройка операционной системы linux  и автоматизация системы. Mеня зовут Владимир Рязанцев  и много времени  помимо работы провожу за компьютером там хранятся много данных и личного. 
 Хочется  всё это привести в порядок и автоматизировать как пользователю.
 Вот и приступим к наведению порядка.
+** Настройка окоужения домпшних папок user-dirs.dirs
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:shell: :tangle ~/.config/user-dirs.dirs :mkdirp yes :shebang ""
+:END:
+
+Для принудительного создания каталогов с английскими именами можно использовать:
+
+LC_ALL=en_US xdg-user-dirs-update --force
+
+#+begin_src shell
+# Этот файл написан xdg-user-dirs-update
+# Если вы хотите изменить или добавить каталоги, просто отредактируйте интересующую вас строку
+#. Все локальные изменения будут сохранены при следующем запуске.
+# Формат - XDG_xxx_DIR="$HOME/yyy", где yyy - экранированный shell
+# homedir-относительный путь, или XDG_xxx_DIR="/yyy", где /yyy - это
+# абсолютный путь. Никакой другой формат не поддерживается.
+# 
+# XDG_DESKTOP_DIR="$HOME/Рабочий стол"
+# XDG_DOWNLOAD_DIR="$HOME/Загрузки"
+# XDG_TEMPLATES_DIR="$HOME/Шаблоны"
+# XDG_PUBLICSHARE_DIR="$HOME/Общедоступные"
+# XDG_DOCUMENTS_DIR="$HOME/Документы"
+# XDG_MUSIC_DIR="$HOME/Музыка"
+# XDG_PICTURES_DIR="$HOME/Изображения"
+# XDG_VIDEOS_DIR="$HOME/Видео"
+
+# XDG_DESKTOP_DIR="$HOME/Desktop"
+# XDG_DOWNLOAD_DIR="$HOME/Downloads"
+# XDG_TEMPLATES_DIR="$HOME/Templates"
+# XDG_PUBLICSHARE_DIR="$HOME/Public"
+# XDG_DOCUMENTS_DIR="$HOME/Documents"
+# XDG_MUSIC_DIR="$HOME/Music"
+# XDG_PICTURES_DIR="$HOME/Pictures"
+# XDG_VIDEOS_DIR="$HOME/Videos"
+
+XDG_DESKTOP_DIR="$HOME/greenWorldOfElves/home/Desktop"
+XDG_DOWNLOAD_DIR="$HOME/greenWorldOfElves/home/Downloads"
+XDG_TEMPLATES_DIR="$HOME/greenWorldOfElves/home/Templates"
+XDG_PUBLICSHARE_DIR="$HOME/greenWorldOfElves/home/Public"
+XDG_DOCUMENTS_DIR="$HOME/greenWorldOfElves/home/Documents"
+XDG_MUSIC_DIR="$HOME/greenWorldOfElves/home/Music"
+XDG_PICTURES_DIR="$HOME/greenWorldOfElves/home/Pictures"
+XDG_VIDEOS_DIR="$HOME/greenWorldOfElves/home/Videos"
+
+# Рабочая дериктория
+XDG_ROOT_DIR="$HOME/greenWorldOfElves"
+
+# Личные папки
+XDG_PROJECTS_DIR="$HOME/greenWorldOfElves/home/Projects"
+XDG_ACADEMY_DIR="$HOME/greenWorldOfElves/home/Academy"
+XDG_COOKING_DIR="$HOME/greenWorldOfElves/home/Cooking"
+XDG_NOTES_DIR="$HOME/greenWorldOfElves/home/Notes"
+XDG_JOURNAL_DIR="$HOME/greenWorldOfElves/home/Journal"
+XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
+
+#+end_src
+
 ** Текстовый редактор emacs
 *** early-init.el
 :PROPERTIES:
