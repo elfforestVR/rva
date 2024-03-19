@@ -281,7 +281,7 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home.Books"
  TEMPLATES_DIR (xdg-user-dir "TEMPLATES")
  DOWNLOAD_DIR (xdg-user-dir "DOWNLOAD")
  DESKTOP_DIR (xdg-user-dir "DESKTOP")
- NOTES_DIR (xdg-user-dir "JOURNAL")
+ NOTES_DIR (xdg-user-dir "ROOT")
  )
 #+end_src
 
