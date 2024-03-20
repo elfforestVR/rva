@@ -83,6 +83,97 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+begin_src emacs-lisp
 (setq debug-on-error t)
 #+end_src
+**** Вспомогательные функции
+#+begin_src emacs-lisp
+(defun mkdirp (dir)
+  "Проверить если папка создать её если нет и вернуть путь"
+  (if (file-exists-p dir)
+      (message dir)
+    (progn (make-directory dir t)(message dir))
+    ))
+#+end_src
+**** Пакетный мененжер
+#+begin_src emacs-lisp
+;; Install straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+;; Install use-package
+(straight-use-package 'use-package)  
+
+
+;; ;; Install use-package
+;; (straight-use-package 'use-package)  
+#+end_src
+**** TODO Path
+где храняться настройки emacs
+#+begin_src emacs-lisp
+(setq emacs-conf user-emacs-directory )
+#+end_src
+
+Подключение системных путей без них не работает пакет *lsp*.
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :straight t
+  :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+#+end_src
+Включим пути *XDG* для доступа к папкам изображение, музыка,
+видео, и.т.д независимо от языка системы и операционной системы.
+#+begin_src emacs-lisp
+(require 'xdg)
+
+(defun xdg-get-path (dir-name-xdg &optional concat-name)
+  ""
+  (let ((dir (substring (shell-command-to-string (concat "xdg-user-dir " dir-name-xdg)) 0 -1)))
+    (if concat-name
+        (expand-file-name concat-name dir)
+      dir)))
+
+
+(setq
+ VIDEOS_DIR (xdg-user-dir "VIDEOS")
+ PICTURES_DIR (xdg-user-dir "PICTURES")
+ MUSIC_DIR (xdg-user-dir "MUSIC")
+ DOCUMENTS_DIR (xdg-user-dir "DOCUMENTS")
+ PUBLICSHARE_DIR (xdg-user-dir "PUBLICSHARE")
+ TEMPLATES_DIR (xdg-user-dir "TEMPLATES")
+ DOWNLOAD_DIR (xdg-user-dir "DOWNLOAD")
+ DESKTOP_DIR (xdg-user-dir "DESKTOP")
+ )
+
+(setq 
+ PROJECTS_DIR (xdg-get-path "PROJECTS")
+ ACADEMY_DIR (xdg-get-path "ACADEMY")
+ COOKING_DIR (xdg-get-path "COOKING")
+ NOTES_DIR (xdg-get-path "NOTES")
+ JOURNAL_DIR (xdg-get-path "JOURNAL")
+ BOOKS_DIR (xdg-get-path "BOOKS")
+ ROOT_DIR (xdg-get-path "ROOT")
+ )
+
+#+end_src
+
+#+begin_src emacs-lisp
+(setq
+ ORG_MODE_DIR DOCUMENTS_DIR
+ DEFT_DIR (mkdirp NOTES_DIR)
+ PROJECTS (mkdirp PROJECTS_DIR)
+ JOURNAL (mkdirp JOURNAL_DIR)
+ BOOK (mkdirp BOOKS_DIR)
+ )
+#+end_src
 **** Запуск emacs как сервер
 
 #+begin_src emacs-lisp :lexical no
@@ -130,24 +221,6 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
  ((equal system-n "aarch64-unknown-linux-android")(message "android"))
  )
 #+end_src
-**** Пакетный мененжер
-#+begin_src emacs-lisp
-;; Install straight.el
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-	(url-retrieve-synchronously
-	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-	 'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-;; Install use-package
-(straight-use-package 'use-package)  
-#+end_src
 **** Закладки
 #+begin_src emacs-lisp
 (use-package bookmark
@@ -157,16 +230,6 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
   (bookmark-save-flag 1)
   )
 #+end_src
-**** Вспомогательные функции
-#+begin_src emacs-lisp
-(defun mkdirp (dir)
-  "Проверить если папка создать её если нет и вернуть путь"
-  (if (file-exists-p dir)
-      (message dir)
-    (progn (make-directory dir t)(message dir))
-    ))
-#+end_src
-
 **** Нумерация строк
 #+begin_src emacs-lisp
 (add-hook 'text-mode-hook #'display-line-numbers-mode) 
@@ -251,67 +314,6 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
 #+end_src
-**** TODO Path
-где храняться настройки emacs
-#+begin_src emacs-lisp
-(setq emacs-conf user-emacs-directory )
-#+end_src
-
-Подключение системных путей без них не работает пакет *lsp*.
-#+begin_src emacs-lisp
-(use-package exec-path-from-shell
-  :straight t
-  :ensure t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-#+end_src
-Включим пути *XDG* для доступа к папкам изображение, музыка,
-видео, и.т.д независимо от языка системы и операционной системы.
-#+begin_src emacs-lisp
-(require 'xdg)
-
-(defun xdg-get-path (dir-name-xdg &optional concat-name)
-  ""
-  (let ((dir (substring (shell-command-to-string (concat "xdg-user-dir " dir-name-xdg)) 0 -1)))
-    (if concat-name
-        (expand-file-name concat-name dir)
-      dir)))
-
-
-(setq
- VIDEOS_DIR (xdg-user-dir "VIDEOS")
- PICTURES_DIR (xdg-user-dir "PICTURES")
- MUSIC_DIR (xdg-user-dir "MUSIC")
- DOCUMENTS_DIR (xdg-user-dir "DOCUMENTS")
- PUBLICSHARE_DIR (xdg-user-dir "PUBLICSHARE")
- TEMPLATES_DIR (xdg-user-dir "TEMPLATES")
- DOWNLOAD_DIR (xdg-user-dir "DOWNLOAD")
- DESKTOP_DIR (xdg-user-dir "DESKTOP")
- )
-
-(setq 
- PROJECTS_DIR (xdg-get-path "PROJECTS")
- ACADEMY_DIR (xdg-get-path "ACADEMY")
- COOKING_DIR (xdg-get-path "COOKING")
- NOTES_DIR (xdg-get-path "NOTES")
- JOURNAL_DIR (xdg-get-path "JOURNAL")
- BOOKS_DIR (xdg-get-path "BOOKS")
- ROOT_DIR (xdg-get-path "ROOT")
- )
-
-#+end_src
-
-#+begin_src emacs-lisp
-(setq
- ORG_MODE_DIR DOCUMENTS_DIR
- DEFT_DIR (mkdirp NOTES_DIR)
- PROJECTS (mkdirp PROJECTS_DIR)
- JOURNAL (mkdirp JOURNAL_DIR)
- BOOK (mkdirp BOOKS_DIR)
- )
-#+end_src
-
 **** Имя операционной системы
 #+begin_src emacs-lisp
 (cond
@@ -526,7 +528,6 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 **** Центрирование и разрывы строк
 #+begin_src emacs-lisp
 (add-hook 'org-mode-hook 'visual-line-mode)
-(add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 **** org-appear
 #+begin_src emacs-lisp
@@ -631,8 +632,7 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
 (require 'org-indent)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 
-(set-face-attribute 'org-block nil            :foreground nil :inherit
-		    'fixed-pitch :height 0.85)
+(set-face-attribute 'org-block nil            :foreground 'unspecified :inherit 'fixed-pitch :height 0.85)
 (set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
 (set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
 (set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
@@ -680,8 +680,6 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
   :hook (org-mode-hook . org-fragtog-mode))
 
 (add-hook 'org-mode-hook 'visual-line-mode)
-
-(add-hook 'org-mode-hook 'olivetti-mode)
 
 (setq org-lowest-priority ?F)  ;; Gives us priorities A through F
 (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
@@ -806,48 +804,141 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
 (add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
 
 #+end_src
-**** deft
+**** Ведение заметок
 #+begin_src emacs-lisp
-(use-package deft
-  :straight t
-  :ensure t
-  :bind (("C-<f6>" . deft-find-file)
-	 ("<f6>" . deft))
-  :config 
-  (setq deft-default-extension "org")
-  (setq deft-extensions '("org"))
-  (setq deft-directory DEFT_DIR)
-  (setq deft-recursive t)
-  (setq deft-use-filename-as-title nil)
-  (setq deft-use-filter-string-for-filename t)
-  (setq deft-file-naming-rules '((noslash . "-")
-				 (nospace . "-")
-				 (case-fn . downcase)))
-  (setq deft-text-mode 'org-mode)
-  )
+;; (use-package deft
+;;   :straight t
+;;   :ensure t
+;;   :bind (("C-<f6>" . deft-find-file)
+;; 	 ("<f6>" . deft))
+;;   :config 
+;;   (setq deft-default-extension "org")
+;;   (setq deft-extensions '("org"))
+;;   (setq deft-directory DEFT_DIR)
+;;   (setq deft-recursive t)
+;;   (setq deft-use-filename-as-title nil)
+;;   (setq deft-use-filter-string-for-filename t)
+;;   (setq deft-file-naming-rules '((noslash . "-")
+;; 				 (nospace . "-")
+;; 				 (case-fn . downcase)))
+;;   (setq deft-text-mode 'org-mode)
+;;   )
 
 
-(add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
+;; (add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
 
-(define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
+;; (define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
 
-(setq deft-text-mode 'org-mode)
+;; (setq deft-text-mode 'org-mode)
 
-(defun kill-all-deft-notes ()
-  (interactive)
-  (save-excursion
-    (let((count 0))
-      (dolist(buffer (buffer-list))
-        (set-buffer buffer)
-        (when (not (eq nil deft-note-mode))
-          (setq count (1+ count))
-          (kill-buffer buffer))))))
+;; (defun kill-all-deft-notes ()
+;;   (interactive)
+;;   (save-excursion
+;;     (let((count 0))
+;;       (dolist(buffer (buffer-list))
+;;         (set-buffer buffer)
+;;         (when (not (eq nil deft-note-mode))
+;;           (setq count (1+ count))
+;;           (kill-buffer buffer))))))
 
-(defun deft-or-close () 
-  (interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
-		    (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
-		  (deft)))
-(global-set-key [f6] 'deft-or-close)
+;; (defun deft-or-close () 
+;;   (interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
+;; 		    (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
+;; 		  (deft)))
+;; (global-set-key [f6] 'deft-or-close)
+
+;; 
+#+end_src
+#+begin_src emacs-lisp
+  (use-package denote
+    :straight t
+    :init
+    (require 'denote-org-extras)
+    (denote-rename-buffer-mode t)
+    :custom
+    (denote-directory DEFT_DIR)
+    :hook
+    (dired-mode . denote-dired-mode)
+    :custom-face
+    (denote-faces-link ((t (:slant italic))))
+    :bind
+    (("C-c n n" . denote-create-note) ; новавя заметка
+     ("C-c n d" . denote-date)
+     ("C-c n i" . denote-link-or-create)
+     ("C-c n l" . denote-find-link)
+     ("C-c n b" . denote-find-backlink)
+     ("C-c n d" . denote-org-dblock-insert-links)
+     ("C-c n r" . denote-rename-file)
+     ("C-c n R" . denote-rename-file-using-front-matter)
+     ("C-c n k" . denote-keywords-add)
+     ("C-c n K" . denote-keywords-remove))
+    )
+
+;; Denote extensions
+  (use-package consult-notes
+    :straight t
+    :commands (consult-notes
+               consult-notes-search-in-all-notes)
+    :custom
+    (consult-notes-file-dir-sources
+     `(("Denote" ?d ,DEFT_DIR)))
+    :bind
+    (("C-c n f" . consult-notes)
+     ("C-c n s" . consult-notes-search-in-all-notes)))
+
+  (use-package denote-explore
+    :straight t
+    :custom
+    ;; Where to store network data and in which format
+    (denote-explore-network-directory "<folder>")
+    (denote-explore-network-filename "<filename?")
+    (denote-explore-network-format 'graphviz)
+    :bind
+    (;; Statistics
+     ("C-c w e c" . denote-explore-count-notes)
+     ("C-c w e C" . denote-explore-count-keywords)
+     ("C-c w e b" . denote-explore-keywords-barchart)
+     ("C-c w e x" . denote-explore-extensions-barchart)
+     ;; Random walks
+     ("C-c w e r" . denote-explore-random-note)
+     ("C-c w e l" . denote-explore-random-link)
+     ("C-c w e k" . denote-explore-random-keyword)
+     ;; Denote Janitor
+     ("C-c w e d" . denote-explore-identify-duplicate-notes)
+     ("C-c w e z" . denote-explore-zero-keywords)
+     ("C-c w e s" . denote-explore-single-keywords)
+     ("C-c w e o" . denote-explore-sort-keywords)
+     ("C-c w e r" . denote-explore-rename-keywords)
+     ;; Visualise denote
+     ("C-c w e n" . denote-explore-network)
+     ("C-c w e v" . denote-explore-network-regenerate)
+     ("C-c w e D" . denote-explore-degree-barchart))
+    )
+
+
+  (use-package citar
+    :straight t
+    )
+
+
+  (use-package citar-denote
+    :straight t
+    )
+
+;; Fleeting notes in Scratch Buffer
+  (setq initial-major-mode 'org-mode
+        initial-scratch-message
+        "#+title: Scratch Buffer\n\nFor random thoughts.\n\n")
+
+  (use-package persistent-scratch
+    :straight t
+    :hook
+    (after-init . persistent-scratch-setup-default)
+    :init
+    (persistent-scratch-setup-default)
+    (persistent-scratch-autosave-mode 1)
+    :bind
+    (("C-c w x" . scratch-buffer)))
 
 #+end_src
 **** clalendar
@@ -990,23 +1081,6 @@ With a prefix ARG, remove start location."
   :straight t
   :config
   )
-#+end_src
-**** Мимолетные заметки
-#+begin_src emacs-lisp
-;; Fleeting notes in Scratch Buffer
-(setq initial-major-mode 'org-mode
-      initial-scratch-message
-      "#+title: Scratch Buffer\n\nFor random thoughts.\n\n")
-
-(use-package persistent-scratch
-  :straight t
-  :hook
-  (after-init . persistent-scratch-setup-default)
-  :init
-  (persistent-scratch-setup-default)
-  (persistent-scratch-autosave-mode)
-  :bind
-  (("C-c w x" . scratch-buffer)))
 #+end_src
 **** lisp
 
@@ -1731,7 +1805,7 @@ With a prefix ARG, remove start location."
 			  ("\\.sh$" . ["insert.sh" alexott/auto-update-defaults])
 			  ("\\.lisp$" . ["insert.lisp" alexott/auto-update-defaults])
 			  ("\\.el$" . ["insert.el" alexott/auto-update-defaults])
-			  ("\\.org$" . ["insert.org" alexott/auto-update-defaults])
+			  ;; ("\\.org$" . ["insert.org" alexott/auto-update-defaults])
 			  ("\\.c$" . ["insert.c" alexott/auto-update-defaults])
                           ))
 
@@ -1861,6 +1935,10 @@ With a prefix ARG, remove start location."
 #+begin_src emacs-lisp
 (use-package use-package-hydra
   :straight t)
+#+end_src
+
+#+begin_src emacs-lisp
+
 #+end_src
 **** exwm
 
