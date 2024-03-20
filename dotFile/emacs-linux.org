@@ -61,8 +61,30 @@ XDG_NOTES_DIR="$HOME/greenWorldOfElves/home/Notes"
 XDG_JOURNAL_DIR="$HOME/greenWorldOfElves/home/Journal"
 XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+end_src
+** Установка emacs и зависимости
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:shell: :tangle ../install/emacs.bash :mkdirp yes :shebang "#!/bin/env bash"
+:END:
 
-** Текстовый редактор emacs
+#+begin_src shell
+## устоновка emacs
+
+if [[ -f /bin/emacs ]]; then
+    echo -e "emacs уже устоновлен !!!!!!!"
+else
+    sudo add-apt-repository ppa:ubuntuhandbook1/emacs
+    sudo apt update
+    sudo apt install -y emacs emacs-common
+fi
+
+## Устоновка зависимостей
+
+sudo apt install -y ispell aspell aspell-ru hunspell hunspell-ru graphviz git sbcl
+
+#+end_src
+
+** Текстовый редактор emacs init
 *** early-init.el
 :PROPERTIES:
 :CUSTOM_ID: init
@@ -169,14 +191,14 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 (setq
  ORG_MODE_DIR DOCUMENTS_DIR
  DEFT_DIR (mkdirp NOTES_DIR)
- PROJECTS (mkdirp PROJECTS_DIR)
- JOURNAL (mkdirp JOURNAL_DIR)
+ PROJECTS_DIR (mkdirp PROJECTS_DIR)
+ JOURNAL_DIR (mkdirp JOURNAL_DIR)
  BOOK (mkdirp BOOKS_DIR)
  )
 #+end_src
 **** Запуск emacs как сервер
 
-#+begin_src emacs-lisp :lexical no
+#+begin_src emacs-lisp 
 (require 'server)
 (unless (server-running-p)
   (server-start))
@@ -360,18 +382,6 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+end_src
 **** Fonts
 #+begin_src emacs-lisp
-;; (ignore-errors (set-frame-font "DroidSansMon"))
-;; (cond
-;;  ((member "Monaco" (font-family-list))
-;;   (set-face-attribute 'default nil :font "Monaco-12"))
-;;  ((member "Inconsolata" (font-family-list))
-;;   (set-face-attribute 'default nil :font "Inconsolata-12"))
-;;  ((member "Consolas" (font-family-list))
-;;   (set-face-attribute 'default nil :font "Consolas-12"))
-;;  ((member "DejaVu Sans Mono" (font-family-list))
-;;   (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
-;;  )
-
 (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 130)
 (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")
 (set-face-attribute 'variable-pitch nil :font "DejaVu Sans")
@@ -854,9 +864,11 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
     :straight t
     :init
     (require 'denote-org-extras)
+    (require 'denote-journal-extras)
     (denote-rename-buffer-mode t)
     :custom
     (denote-directory DEFT_DIR)
+    (denote-journal-extras-directory JOURNAL_DIR)
     :hook
     (dired-mode . denote-dired-mode)
     :custom-face
@@ -872,6 +884,8 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
      ("C-c n R" . denote-rename-file-using-front-matter)
      ("C-c n k" . denote-keywords-add)
      ("C-c n K" . denote-keywords-remove))
+    :config
+    
     )
 
 ;; Denote extensions
@@ -1071,11 +1085,11 @@ With a prefix ARG, remove start location."
 #+end_src
 
 #+begin_src emacs-lisp
-;; (use-package org-noter
-;;   :straight t
-;;   :config
-;;   ;; Your org-noter config ........
-;;   (require 'org-noter-pdftools))
+(use-package org-noter
+  :straight t
+  :config
+  ;; Your org-noter config ........
+  (require 'org-noter-pdftools))
 #+end_src
 **** djvu
 #+begin_src emacs-lisp
