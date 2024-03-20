@@ -941,6 +941,21 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
     (("C-c w x" . scratch-buffer)))
 
 #+end_src
+
+#+begin_src emacs-lisp
+;; (use-package org-journal
+;;   :straight t
+;;   :config (setq org-journal-dir JOURNAL
+;;                 org-journal-file-type 'monthly
+;;                 org-journal-find-file 'find-file
+;;                 org-journal-file-format "%Y-%m-%d.org"
+;;                 org-journal-date-format "%A, %Y-%m-%d")
+;;   :bind (("C-c j j" . 'org-journal-new-entry)
+;;          ("C-c j s" . 'org-journal-new-scheduled-entry)
+;;          ("C-c j o" . 'org-journal-open-current-journal-file)
+;;          ;; ("C-c j w" . 'mmk2410/org-journal-worktime)
+;; 	 ))
+#+end_src
 **** clalendar
 #+begin_src emacs-lisp
 (setq calendar-week-start-day 1
@@ -1620,21 +1635,6 @@ With a prefix ARG, remove start location."
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)))
-#+end_src
-**** Journal
-#+begin_src emacs-lisp
-(use-package org-journal
-  :straight t
-  :config (setq org-journal-dir JOURNAL
-                org-journal-file-type 'monthly
-                org-journal-find-file 'find-file
-                org-journal-file-format "%Y-%m-%d.org"
-                org-journal-date-format "%A, %Y-%m-%d")
-  :bind (("C-c j j" . 'org-journal-new-entry)
-         ("C-c j s" . 'org-journal-new-scheduled-entry)
-         ("C-c j o" . 'org-journal-open-current-journal-file)
-         ;; ("C-c j w" . 'mmk2410/org-journal-worktime)
-	 ))
 #+end_src
 **** Treemacs
 #+begin_src emacs-lisp
