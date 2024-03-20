@@ -358,17 +358,30 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+end_src
 **** Fonts
 #+begin_src emacs-lisp
-(ignore-errors (set-frame-font "DroidSansMon"))
-(cond
- ((member "Monaco" (font-family-list))
-  (set-face-attribute 'default nil :font "Monaco-12"))
- ((member "Inconsolata" (font-family-list))
-  (set-face-attribute 'default nil :font "Inconsolata-12"))
- ((member "Consolas" (font-family-list))
-  (set-face-attribute 'default nil :font "Consolas-12"))
- ((member "DejaVu Sans Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
- )
+;; (ignore-errors (set-frame-font "DroidSansMon"))
+;; (cond
+;;  ((member "Monaco" (font-family-list))
+;;   (set-face-attribute 'default nil :font "Monaco-12"))
+;;  ((member "Inconsolata" (font-family-list))
+;;   (set-face-attribute 'default nil :font "Inconsolata-12"))
+;;  ((member "Consolas" (font-family-list))
+;;   (set-face-attribute 'default nil :font "Consolas-12"))
+;;  ((member "DejaVu Sans Mono" (font-family-list))
+;;   (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
+;;  )
+
+(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 130)
+(set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")
+(set-face-attribute 'variable-pitch nil :font "DejaVu Sans")
+
+#+end_src
+
+#+begin_src emacs-lisp
+;; Set default, fixed and variable pitch fonts
+  (use-package mixed-pitch
+    :straight t
+    :hook
+    (text-mode . mixed-pitch-mode))
 #+end_src
 **** Очистка всего не нужного
 #+begin_src emacs-lisp
@@ -376,7 +389,10 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
  ((equal system-configuration "x86_64-pc-linux-gnu")
   (progn  (menu-bar-mode     -1)
 	  (scroll-bar-mode   -1) ;; на сонсоли ошибка
-	  (tool-bar-mode     -1)))
+	  (tool-bar-mode     -1)
+	  (setq-default inhibit-startup-message t
+                use-short-answers t)
+))
 
  ((equal system-configuration "aarch64-unknown-linux-android")
   (progn  (menu-bar-mode     -1)))
@@ -530,11 +546,27 @@ XDG_BOOKS_DIR="$HOME/greenWorldOfElves/home/Books"
 #+end_src
 **** режим писателя
 #+begin_src emacs-lisp
+;; Distraction-free writing
+  (defun ews-distraction-free ()
+    "Distraction-free writing environment using Olivetti package."
+    (interactive)
+    (if (equal olivetti-mode nil)
+        (progn
+          (window-configuration-to-register 1)
+          (delete-other-windows)
+          (text-scale-set 2)
+          (olivetti-mode t))
+      (progn
+        (if (eq (length (window-list)) 1)
+            (jump-to-register 1))
+        (olivetti-mode 0)
+        (text-scale-set 0))))
+
 
 (use-package olivetti
   :straight t 
-  :ensure t
-  :bind ("C-<f11>" .  olivetti-mode))
+  :demand t
+  :bind ("C-<f11>" .  ews-distraction-free))
 #+end_src
 **** column marker
 #+begin_src emacs-lisp
@@ -1138,17 +1170,24 @@ With a prefix ARG, remove start location."
 ;; Override all minor modes that use C-/; bind-key* is discussed below.
 (bind-key* "C-`" #'company-manual-begin)
 
-(use-package company-lsp
-  :straight t
-  :ensure t
-  :requires company
-  :config
-  (push 'company-lsp company-backends)
+;; (use-package company-lsp
+;;   :straight t
+;;   :ensure t
+;;   :requires company
+;;   :config
+;;   (push 'company-lsp company-backends)
 
-  ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
+;;   ;; Disable client-side cache because the LSP server does a better job.
+;;   (setq company-transformers nil
+;;         company-lsp-async t
+;;         company-lsp-cache-candidates nil))
+
+;; Required for variable pitch
+  (use-package company-posframe
+    :straight t
+    :config
+    (company-posframe-mode 1))
+
 
 #+end_src
 **** lua
@@ -1578,6 +1617,25 @@ With a prefix ARG, remove start location."
 ;;   (doom-themes-org-config))
 #+end_src
 
+#+begin_src emacs-lisp
+ ;; Modus Themes
+  (use-package modus-themes
+    :straight t
+    :custom
+    (modus-themes-italic-constructs t)
+    (modus-themes-bold-constructs t)
+    (modus-themes-mixed-fonts t)
+    (modus-themes-headings '((1 . (1.5))
+                             (2 . (1.3))
+                             (t . (1.1))))
+    (modus-themes-to-toggle
+     '(modus-operandi-tinted modus-vivendi-tinted))
+    :bind
+    (("C-c w m" . modus-themes-toggle)
+     ("C-c w M" . modus-themes-select))
+    :init
+    (load-theme 'modus-operandi-tinted :no-confirm))
+#+end_src
 
 #+begin_src emacs-lisp
 (use-package mini-frame
