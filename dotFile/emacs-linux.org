@@ -453,6 +453,7 @@ sudo apt install -y ispell aspell aspell-ru hunspell hunspell-ru graphviz git sb
   )
 
 #+end_src
+
 **** Yasnippet
 #+begin_src emacs-lisp
 (use-package yasnippet
@@ -479,7 +480,7 @@ sudo apt install -y ispell aspell aspell-ru hunspell hunspell-ru graphviz git sb
 	 ("C-c a" . org-agenda)
 	 )
   :config
-  (setq org-directory ORG_MODE_DIR
+  (setq org-directory ROOT_DIR
 	org-adapt-indentation t
 	org-hide-leading-stars t
 	org-hide-emphasis-markers t
@@ -527,6 +528,15 @@ sudo apt install -y ispell aspell aspell-ru hunspell hunspell-ru graphviz git sb
 	  ("b" . "src shell")
 	  ("v" . "verse")))
   )
+
+#+end_src
+
+**** org-agenda
+#+begin_src emacs-lisp
+(setq org-agenda-start-with-log-mode t)
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)
+;; (setq org-agenda-files '("/home/elf/greenWorldOfElves/"))
 #+end_src
 **** org-ref
 #+begin_src emacs-lisp
@@ -850,6 +860,10 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
 
 (add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
 (add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
+
+(use-package elegant-agenda-mode
+  :straight t
+  :hook org-agenda-mode-hook) 
 
 #+end_src
 **** Ведение заметок
