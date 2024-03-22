@@ -10,6 +10,11 @@
 Хочется  всё это привести в порядок и автоматизировать как пользователю.
 Вот и приступим к наведению порядка.
 ** Устоновка программ в серии UBUNTU
+:PROPERTIES:
+:CUSTOM_ID: init
+:header-args:shell: :tangle ../apt.sh :mkdirp yes :shebang "#!/bin/env bash"
+:END:
+
 #+begin_src shell
 echo -e "начало устоновки программ"
 if [[ -f /bin/dialog ]]; then
@@ -1044,6 +1049,11 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
 ;;          ("C-c j o" . 'org-journal-open-current-journal-file)
 ;;          ;; ("C-c j w" . 'mmk2410/org-journal-worktime)
 ;; 	 ))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package orgnote
+  :straight t)
 #+end_src
 **** clalendar
 #+begin_src emacs-lisp
