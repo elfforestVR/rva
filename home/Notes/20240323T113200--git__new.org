@@ -1,0 +1,8 @@
+#+title:      git
+#+date:       [2024-03-23 Сб 11:32]
+#+filetags:   :bash:
+#+identifier: 20240323T113200
+
+* TODO git начало
+[[https://yandex.ru/video/preview/8868155982154746223][git start]]
+сделать мануал по коммандом git
