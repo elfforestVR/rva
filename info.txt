@@ -9,9 +9,15 @@ http://www.dungeonsanddevelopers.com/#_ab_12_Your%20Name
 * emacs 
 ** package
 https://github.com/protesilaos/substitute
+** lsp
+https://www.mortens.dev/blog/emacs-and-the-language-server-protocol/index.html
 * тайловый оконный мененжер
 ** video
 https://www.youtube.com/watch?v=xiINVRTBIgI
 ** bspwm
 *** Video
 https://www.youtube.com/watch?v=9zewiGf7j-A
+* js
+https://tauri.app/ ide как electron
+* Биржи для работы флиланса
+https://freelancehunt.com/

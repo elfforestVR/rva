@@ -131,7 +131,7 @@ sudo apt install -y ispell aspell aspell-ru hunspell hunspell-ru graphviz git sb
 :END:
 **** Debug
 #+begin_src emacs-lisp
-(setq debug-on-error t)
+(setq debug-on-error nil)
 #+end_src
 **** Вспомогательные функции
 #+begin_src emacs-lisp
@@ -868,7 +868,7 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
   (push '("[ ]" . "") prettify-symbols-alist)
   (push '("[X]" . "") prettify-symbols-alist)
   (push '("[-]" . "-" ) prettify-symbols-alist)
-
+t
   ;; org-abel
   (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
   (push '("#+END_SRC" . ?≫) prettify-symbols-alist)
@@ -895,49 +895,49 @@ https://sophiebos.io/posts/beautifying-emacs-org-mode/
 
 #+end_src
 **** Ведение заметок
-#+begin_src emacs-lisp
-;; (use-package deft
-;;   :straight t
-;;   :ensure t
-;;   :bind (("C-<f6>" . deft-find-file)
-;; 	 ("<f6>" . deft))
-;;   :config 
-;;   (setq deft-default-extension "org")
-;;   (setq deft-extensions '("org"))
-;;   (setq deft-directory DEFT_DIR)
-;;   (setq deft-recursive t)
-;;   (setq deft-use-filename-as-title nil)
-;;   (setq deft-use-filter-string-for-filename t)
-;;   (setq deft-file-naming-rules '((noslash . "-")
-;; 				 (nospace . "-")
-;; 				 (case-fn . downcase)))
-;;   (setq deft-text-mode 'org-mode)
-;;   )
+# #+begin_src emacs-lisp
+# ;; (use-package deft
+# ;;   :straight t
+# ;;   :ensure t
+# ;;   :bind (("C-<f6>" . deft-find-file)
+# ;; 	 ("<f6>" . deft))
+# ;;   :config 
+# ;;   (setq deft-default-extension "org")
+# ;;   (setq deft-extensions '("org"))
+# ;;   (setq deft-directory DEFT_DIR)
+# ;;   (setq deft-recursive t)
+# ;;   (setq deft-use-filename-as-title nil)
+# ;;   (setq deft-use-filter-string-for-filename t)
+# ;;   (setq deft-file-naming-rules '((noslash . "-")
+# ;; 				 (nospace . "-")
+# ;; 				 (case-fn . downcase)))
+# ;;   (setq deft-text-mode 'org-mode)
+# ;;   )
 
 
-;; (add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
+# ;; (add-to-list 'auto-mode-alist '("notes/.*[.]txt$" . org-mode))
 
-;; (define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
+# ;; (define-minor-mode deft-note-mode "Deft notes" nil " Deft-Notes" nil)
 
-;; (setq deft-text-mode 'org-mode)
+# ;; (setq deft-text-mode 'org-mode)
 
-;; (defun kill-all-deft-notes ()
-;;   (interactive)
-;;   (save-excursion
-;;     (let((count 0))
-;;       (dolist(buffer (buffer-list))
-;;         (set-buffer buffer)
-;;         (when (not (eq nil deft-note-mode))
-;;           (setq count (1+ count))
-;;           (kill-buffer buffer))))))
+# ;; (defun kill-all-deft-notes ()
+# ;;   (interactive)
+# ;;   (save-excursion
+# ;;     (let((count 0))
+# ;;       (dolist(buffer (buffer-list))
+# ;;         (set-buffer buffer)
+# ;;         (when (not (eq nil deft-note-mode))
+# ;;           (setq count (1+ count))
+# ;;           (kill-buffer buffer))))))
 
-;; (defun deft-or-close () 
-;;   (interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
-;; 		    (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
-;; 		  (deft)))
-;; (global-set-key [f6] 'deft-or-close)
+# ;; (defun deft-or-close () 
+# ;;   (interactive) (if (or (eq major-mode 'deft-mode) (not (eq nil deft-note-mode)))
+# ;; 		    (progn (kill-all-deft-notes) (kill-buffer "*Deft*"))
+# ;; 		  (deft)))
+# ;; (global-set-key [f6] 'deft-or-close)
 
-;; 
+# ;; 
 #+end_src
 #+begin_src emacs-lisp
   (use-package denote
@@ -1358,17 +1358,17 @@ With a prefix ARG, remove start location."
 ;; Override all minor modes that use C-/; bind-key* is discussed below.
 (bind-key* "C-`" #'company-manual-begin)
 
-;; (use-package company-lsp
-;;   :straight t
-;;   :ensure t
-;;   :requires company
-;;   :config
-;;   (push 'company-lsp company-backends)
+(use-package company-lsp
+  :straight t
+  :ensure t
+  :requires company
+  :config
+  (push 'company-lsp company-backends)
 
-;;   ;; Disable client-side cache because the LSP server does a better job.
-;;   (setq company-transformers nil
-;;         company-lsp-async t
-;;         company-lsp-cache-candidates nil))
+  ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
 
 ;; Required for variable pitch
   (use-package company-posframe

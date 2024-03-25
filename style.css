@@ -1,0 +1,32 @@
+body {
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: left;
+    background-color: #FFFFFF; /*white*/
+    color: #000000;
+}
+
+div.epigraf {
+    font-family: LiberationSerif-Italic, serif;
+    font-style: italic;
+    font-size: 98%;
+    margin: 1em 1em 2em 17%;
+    text-align: justify;
+    color: #000080; /*navy*/
+}
+
+h1, h2, h3 {
+ text-align: center;
+}
+
+footer {
+    background-color: #2e34e5;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    text-align: center; 
+    width: 99%;   
+    font-size: 19px;
+    font-weight: bold;
+    color: #fafaff; 
+}
