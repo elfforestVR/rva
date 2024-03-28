@@ -21,3 +21,5 @@ https://www.youtube.com/watch?v=9zewiGf7j-A
 https://tauri.app/ ide как electron
 * Биржи для работы флиланса
 https://freelancehunt.com/
+* onlain ide vcode
+https://github.dev/github/dev

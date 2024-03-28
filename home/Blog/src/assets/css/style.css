@@ -6,14 +6,6 @@ body {
     color: #000000;
 }
 
-div.epigraf {
-    font-family: LiberationSerif-Italic, serif;
-    font-style: italic;
-    font-size: 98%;
-    margin: 1em 1em 2em 17%;
-    text-align: justify;
-    color: #000080; /*navy*/
-}
 
 h1, h2, h3 {
  text-align: center;
